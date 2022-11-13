@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/binq/bash
 
 nuclei="https://github.com/projectdiscovery/nuclei/releases/download/v2.7.9/nuclei_2.7.9_linux_amd64.zip"
 subfinder="https://github.com/projectdiscovery/subfinder/releases/download/v2.5.4/subfinder_2.5.4_linux_amd64.zip"
@@ -36,6 +36,16 @@ wget $anew;
 wget $gau;
 git clone $gf-patterns;
 wget gf;
-unzip *.zip
-tar -xzf *gz
+unzip nuclei_2.7.9_linux_amd64.zip;
+unzip subfinder_2.5.4_linux_amd64.zip;
+unzip naabu_2.1.1_linux_amd64.zip;
+unzip httpx_1.2.5_linux_amd64.zip;
+unzip interactsh-client_1.0.7_Linux_x86_64.zip;
+unzip amass_linux_amd64.zip;
+unzip 1.3.2.zip;
 
+tar -xzf assetfinder-linux-amd64-0.1.1.tgz;
+tar -xzf httprobe-linux-amd64-0.2.tgz;
+tar -xzf qsreplace-linux-amd64-0.0.3.tgz;
+tar -xzf waybackurls-linux-amd64-0.1.0.tgz;
+tar -xzf gau_2.1.2_linux_amd64.tar.gz;
