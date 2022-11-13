@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "Preparing Binaries...";
+echo "";
+
 nuclei="https://github.com/projectdiscovery/nuclei/releases/download/v2.7.9/nuclei_2.7.9_linux_amd64.zip"
 subfinder="https://github.com/projectdiscovery/subfinder/releases/download/v2.5.4/subfinder_2.5.4_linux_amd64.zip"
 naabu="https://github.com/projectdiscovery/naabu/releases/download/v2.1.1/naabu_2.1.1_linux_amd64.zip"
@@ -19,6 +22,7 @@ gau="https://github.com/lc/gau/releases/download/v2.1.2/gau_2.1.2_linux_amd64.ta
 gfpatterns="https://github.com/robre/gf-patterns"
 gf="https://github.com/FrozenOption/VPS-Setup/raw/main/gf"
 ffuf="https://github.com/ffuf/ffuf/releases/download/v1.5.0/ffuf_1.5.0_linux_amd64.tar.gz"
+
 wget $nuclei; 
 wget $subfinder;
 wget $naabu;
@@ -61,3 +65,6 @@ rm *md;
 rm LICENSE;
 
 chmod +x *;
+
+echo "Downloading Wordlists.."
+wget "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/config-wordlist"
