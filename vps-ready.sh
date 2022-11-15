@@ -46,7 +46,10 @@ git clone $gfpatterns;
 wget $gf;
 wget $ffuf;
 wget $masscan;
-
+wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/sectrails;
+wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/rapidns;
+wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/jldc;
+wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/crtsh;
 
 unzip -o nuclei_2.7.9_linux_amd64.zip;
 unzip -o subfinder_2.5.4_linux_amd64.zip;
@@ -77,3 +80,5 @@ cd Sublist3r && pip3 install -r requirements.txt;
 cd ..;
 wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/recon_me;
 chmod +x recon_me;
+chmod +x *;
+export PATH=$PATH:$(pwd);
