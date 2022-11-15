@@ -19,9 +19,6 @@ sectrails $domain | anew raw.txt
 echo -e "\n----> RAPIDDNS <----\n"
 rapidns $domain | anew raw.txt
 
-echo -e "\n----> Threadcrowd.. <----\n"
-trcrowd $domain | anew raw.txt
-
 echo -e "\n----> Certsh.. <----\n"
 crtsh $domain | anew raw.txt
 
@@ -31,20 +28,8 @@ python3 /opt/Sublist3r/sublist3r.py -n -d $domain 2>/dev/null | anew raw.txt
 echo -e "\n--> Subfinder.. <--\n"
 subfinder -d $domain -silent 2>/dev/null | anew raw.txt
 
-echo -e "\n--> Subfinder-c99 .. <--\n"
-subfinder-c99 $domain | anew raw.txt
-
 echo -e "\n--> JLDC .. <--\n"
 jldc $domain | anew raw.txt
-
-echo -e "\n--> San Subdomain .. <--\n"
-python3 /opt/the-art-of-subdomain-enumeration/san_subdomain_enum.py $domain 2>/dev/null | grep -v '*' | anew raw.txt
-
-#echo -e "\n--> Gau .. <--\n"
-#gau --subs $domain 2>/dev/null | anew raw.txt
-
-#echo -e "\n--> Github-Search.. <--\n"
-#python3 /opt/github-search/github-subdomains.py -d $domain -t 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 2>/dev/null | anew raw.txt
 
 echo -e "\n--> Assetfinder.. <--\n"
 assetfinder --subs-only $domain 2>/dev/null | anew raw.txt
