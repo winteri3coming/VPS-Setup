@@ -1,0 +1,3 @@
+#!/bin/bash
+domain=$1
+for subdomain in $(curl -s https://api.securitytrails.com/v1/domain/$domain/subdomains?apikey=du6bWnVwaYMDKoQWMwUEl5y4N3OU1rIo | jq '.subdomains[]' | sed 's/\"//g'); do echo $subdomain.$domain; done

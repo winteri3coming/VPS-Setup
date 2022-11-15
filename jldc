@@ -1,0 +1,4 @@
+#!/bin/bash
+
+domain=$1
+curl https://jldc.me/anubis/subdomains/$domain -s | jq -r ".[]" | sort -u

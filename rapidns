@@ -1,0 +1,4 @@
+#!/bin/bash
+
+domain=$1
+curl -s "https://rapiddns.io/subdomain/$domain?full=1" | grep -E '<td>' | egrep -vE '(CNAME|href|20*-*-*|A|MX)' | grep -Po '(?<=\>)([a-zA-Z0-9.-])*' | sort -u
