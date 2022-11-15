@@ -22,8 +22,11 @@ gau="https://github.com/lc/gau/releases/download/v2.1.2/gau_2.1.2_linux_amd64.ta
 gfpatterns="https://github.com/robre/gf-patterns"
 gf="https://github.com/FrozenOption/VPS-Setup/raw/main/gf"
 ffuf="https://github.com/ffuf/ffuf/releases/download/v1.5.0/ffuf_1.5.0_linux_amd64.tar.gz"
+cent="https://github.com/xm1k3/cent"
+sublister="https://github.com/aboul3la/Sublist3r.git"
 
 wget $nuclei; 
+git clone $cent;
 wget $subfinder;
 wget $naabu;
 wget $httpx;
@@ -37,6 +40,7 @@ wget $qsreplace;
 wget $waybackurls;
 wget $filterresolved
 wget $anew;
+git clone $sublister;
 wget $gau;
 git clone $gfpatterns;
 wget $gf;
@@ -44,13 +48,13 @@ wget $ffuf;
 wget $masscan;
 
 
-unzip nuclei_2.7.9_linux_amd64.zip;
-unzip subfinder_2.5.4_linux_amd64.zip;
-unzip naabu_2.1.1_linux_amd64.zip;
-unzip httpx_1.2.5_linux_amd64.zip;
-unzip interactsh-client_1.0.7_Linux_x86_64.zip;
-unzip amass_linux_amd64.zip;
-unzip 1.3.2.zip;
+unzip -o nuclei_2.7.9_linux_amd64.zip;
+unzip -o subfinder_2.5.4_linux_amd64.zip;
+unzip -o naabu_2.1.1_linux_amd64.zip;
+unzip -o httpx_1.2.5_linux_amd64.zip;
+unzip -o interactsh-client_1.0.7_Linux_x86_64.zip;
+unzip -o amass_linux_amd64.zip;
+unzip -o 1.3.2.zip;
 
 tar -xzf assetfinder-linux-amd64-0.1.1.tgz;
 tar -xzf httprobe-linux-amd64-0.2.tgz;
@@ -66,5 +70,10 @@ rm LICENSE;
 
 chmod +x *;
 
-echo "Downloading Wordlists.."
-wget "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/config-wordlist"
+echo "Downloading Wordlists..";
+wget "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/config-wordlist";
+pip3 install dnsgen;
+cd Sublist3r && pip3 install -r requirements.txt;
+cd ..;
+wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/recon_me;
+chmod +x recon_me;
