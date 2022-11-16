@@ -22,9 +22,6 @@ rapidns $domain | anew raw.txt
 echo -e "\n----> Certsh.. <----\n"
 crtsh $domain | anew raw.txt
 
-echo -e "\n--> Sublister.. <--\n"
-python3 /opt/Sublist3r/sublist3r.py -n -d $domain 2>/dev/null | anew raw.txt
-
 echo -e "\n--> Subfinder.. <--\n"
 subfinder -d $domain -silent 2>/dev/null | anew raw.txt
 
