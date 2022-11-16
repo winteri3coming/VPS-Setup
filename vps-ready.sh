@@ -78,7 +78,7 @@ wget "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/config-wordl
 pip3 install dnsgen;
 cd Sublist3r && pip3 install -r requirements.txt;
 cd ..;
-cd altdns/ && pip3 install -r requirements; cd ..;
+cd altdns/ && pip3 install -r requirements.txt; cd ..;
 wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/recon_me;
 chmod +x recon_me;
 chmod +x *;
