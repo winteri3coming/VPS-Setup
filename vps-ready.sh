@@ -23,7 +23,6 @@ gfpatterns="https://github.com/robre/gf-patterns"
 gf="https://github.com/FrozenOption/VPS-Setup/raw/main/gf"
 ffuf="https://github.com/ffuf/ffuf/releases/download/v1.5.0/ffuf_1.5.0_linux_amd64.tar.gz"
 cent="https://github.com/xm1k3/cent"
-sublister="https://github.com/aboul3la/Sublist3r.git"
 
 wget $nuclei; 
 git clone $cent;
@@ -40,7 +39,6 @@ wget $qsreplace;
 wget $waybackurls;
 wget $filterresolved
 wget $anew;
-git clone $sublister;
 wget $gau;
 git clone $gfpatterns;
 wget $gf;
@@ -57,6 +55,7 @@ unzip -o naabu_2.1.1_linux_amd64.zip;
 unzip -o httpx_1.2.5_linux_amd64.zip;
 unzip -o interactsh-client_1.0.7_Linux_x86_64.zip;
 unzip -o amass_linux_amd64.zip;
+mv amass_linux_amd64/amass ../
 unzip -o 1.3.2.zip;
 
 tar -xzf assetfinder-linux-amd64-0.1.1.tgz;
