@@ -22,8 +22,16 @@ gau="https://github.com/lc/gau/releases/download/v2.1.2/gau_2.1.2_linux_amd64.ta
 gfpatterns="https://github.com/robre/gf-patterns"
 gf="https://github.com/FrozenOption/VPS-Setup/raw/main/gf"
 ffuf="https://github.com/ffuf/ffuf/releases/download/v1.5.0/ffuf_1.5.0_linux_amd64.tar.gz"
-cent="https://github.com/xm1k3/cent"
+cent="https://github.com/xm1k3/cent";
+arjun="https://github.com/s0md3v/Arjun";
+seclists="https://github.com/danielmiessler/SecLists";
+dalfox="https://github.com/hahwul/dalfox/releases/download/v2.8.1/dalfox_2.8.1_darwin_amd64.tar.gz";
+xsstrike="https://github.com/s0md3v/XSStrike";
 
+git clone $xsstrike;
+wget $dalfox; tar -xzf dalfox_2.8.1_darwin_amd64.tar.gz;
+git clone $seclists;
+git clone $arjun;
 wget $nuclei; 
 git clone $cent;
 wget $subfinder;
