@@ -48,13 +48,15 @@ wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/sectrails;
 wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/rapidns;
 wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/jldc;
 wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/crtsh;
+wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/recon_me;
+wget https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64; mv jq-linux64 jq;
 
 unzip -o nuclei_2.7.9_linux_amd64.zip;
 unzip -o subfinder_2.5.4_linux_amd64.zip;
 unzip -o naabu_2.1.1_linux_amd64.zip;
 unzip -o httpx_1.2.5_linux_amd64.zip;
 unzip -o interactsh-client_1.0.7_Linux_x86_64.zip;
-unzip -o amass_linux_amd64.zip;
+unzip -o amass_linux_amd64.zip; mv amass_linux_amd64/amass .;
 mv amass_linux_amd64/amass ../
 unzip -o 1.3.2.zip;
 
