@@ -28,6 +28,7 @@ seclists="https://github.com/danielmiessler/SecLists";
 dalfox="https://github.com/hahwul/dalfox/releases/download/v2.8.1/dalfox_2.8.1_darwin_amd64.tar.gz";
 xsstrike="https://github.com/s0md3v/XSStrike";
 
+wget https://raw.githubusercontent.com/ayoubfathi/leaky-paths/main/leaky-paths.txt;
 git clone $xsstrike;
 wget $dalfox; tar -xzf dalfox_2.8.1_darwin_amd64.tar.gz;
 git clone $seclists;
