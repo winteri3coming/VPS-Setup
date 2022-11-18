@@ -33,6 +33,7 @@ assetfinder --subs-only $domain 2>/dev/null | anew raw.txt
 
 echo -e "\n--> Amass.. <--\n"
 amass enum -passive -d $domain 2>/dev/null | anew raw.txt
+amass enum -active -brute -d $domain | anew raw.txt
 
 cat raw.txt | grep '*' | anew to-bruteforce.txt
 cat raw.txt | grep -v '*' | filter-resolved | anew resolved.txt
@@ -44,6 +45,3 @@ cat alive.txt | httpx -sc -cl -server -title -maxhr 99999 | anew httpx.txt
 cat alive.txt | httpx -sc -cl -server -title -maxhr 99999 | anew httpx.txt
 cat alive.txt | httpx -sc -cl -server -title -maxhr 99999 | anew httpx.txt
 cat alive.txt | httpx -sc -cl -server -title -maxhr 99999 | anew httpx.txt
-
-
-amass enum -active -brute -d $domain | anew raw.txt
