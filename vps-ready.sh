@@ -134,26 +134,40 @@ echo "";
 
 # amass
 amass="https://github.com/OWASP/Amass/releases/download/v3.20.0/amass_linux_amd64.zip";
+wget $amass;
 unzip -o amass_linux_amd64.zip;
 mv amass_linux_amd64/amass .;
-rm -rf amass_linux_amd64;
+rm -rf amass_linux_amd64.zip;
 echo "";
 
+
+# go
+wget https://go.dev/dl/go1.19.3.linux-amd64.tar.gz;
+tar -xzf go1.19.3.linux-amd64.tar.gz;
+rm go1.19.3.linux-amd64.tar.gz;
+echo "";
+cd go/bin/;
+export PATH=$PATH:`pwd`
+
 # puredns
+cd ../../
 puredns="github.com/d3mondev/puredns/v2@latest"
 go install $puredns;
 echo "";
 
 # gf
 gf="https://github.com/FrozenOption/VPS-Setup/raw/main/gf";
+wget $gf;
 echo "";
 
 # anew 
 anew="https://github.com/FrozenOption/VPS-Setup/raw/main/anew";
+wget $anew;
 echo "";
 
 # filter-resolved
 filterresolved="https://github.com/FrozenOption/VPS-Setup/raw/main/filter-resolved";
+wget $filterresolved;
 echo "";
 
 # altdns
@@ -221,6 +235,7 @@ git clone https://github.com/guelfoweb/knock; cd knock;
 pip3 install -r requirements.txt;
 python3 setup.py install;
 echo "";
+cd ..;
 
 # subdomanizer
 git clone https://github.com/nsonaniya2010/SubDomainizer;
@@ -240,11 +255,6 @@ wget "https://wordlists-cdn.assetnote.io/data/manual/best-dns-wordlist.txt";
 
 # fresh resolvers
 wget "https://raw.githubusercontent.com/proabiral/Fresh-Resolvers/master/resolvers.txt";
-
-rm *gz;
-rm *zip;
-rm *md;
-rm LICENSE*;
 
 chmod +x *;
 export PATH=$PATH:$(pwd);
