@@ -14,6 +14,7 @@ __      _______   _____ _____ _______
 echo "";
 echo "1- Downloading Tools";
 echo "";
+mkdir tools;
 
 #Nuclei
 echo "Installing Nuclei..";
@@ -163,6 +164,10 @@ echo "";
 pip3 install dnsgen;
 echo "";
 
+#gotator
+git clone https://github.com/Josue87/gotator;
+echo "";
+
 # mytools
 wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/sectrails;
 wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/rapidns;
@@ -173,6 +178,15 @@ wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/recon_me;
 # xsstrike
 xsstrike="https://github.com/s0md3v/XSStrike";
 wget $xsstrike;
+echo "";
+
+# massdns
+massdns="https://github.com/blechschmidt/massdns"
+git clone $massdns;
+cd massdns;
+make;
+make install;
+cd ..;
 echo "";
 
 # masscan
@@ -202,6 +216,15 @@ echo "";
 wget https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/recon_me;
 echo "";
 
+# knockpy
+git clone https://github.com/guelfoweb/knock; cd knock;
+pip3 install -r requirements.txt;
+python3 setup.py install;
+echo "";
+
+# subdomanizer
+git clone https://github.com/nsonaniya2010/SubDomainizer;
+echo "";
 echo "2- Downloading Wordlists.."
 echo "";
 
@@ -215,7 +238,13 @@ wget "https://raw.githubusercontent.com/ayoubfathi/leaky-paths/main/leaky-paths.
 wget "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/config-wordlist";
 wget "https://wordlists-cdn.assetnote.io/data/manual/best-dns-wordlist.txt";
 
-rm *gz;rm *zip;rm *md;rm LICENSE*;
-chmod +x *;
+# fresh resolvers
+wget "https://raw.githubusercontent.com/proabiral/Fresh-Resolvers/master/resolvers.txt";
 
+rm *gz;
+rm *zip;
+rm *md;
+rm LICENSE*;
+
+chmod +x *;
 export PATH=$PATH:$(pwd);
