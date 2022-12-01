@@ -75,7 +75,7 @@ echo -e "\t \tDone ✔";
 # katana
 echo -n "Installing katana";
 katana="https://github.com/projectdiscovery/katana/releases/download/v0.0.2/katana_0.0.2_linux_amd64.zip";
-wget -q $katana;unzip -q -o katana_0.0.2_linux_amd64.zip;
+wget -q $katana;unzip -q -o katana_0.0.2_linux_amd64.zip; rm katana_0.0.2_linux_amd64.zip;
 mv katana tools/;
 echo -e "\t \tDone ✔";
 
@@ -139,6 +139,7 @@ echo -e "\t \tDone ✔";
 echo -n "Installing ffuf";
 ffuf="https://github.com/ffuf/ffuf/releases/download/v1.5.0/ffuf_1.5.0_linux_amd64.tar.gz";
 wget -q $ffuf; tar -xzf ffuf_1.5.0_linux_amd64.tar.gz; rm ffuf_1.5.0_linux_amd64.tar.gz;
+mv ffuf tools/;
 echo -e "\t \tDone ✔";
 
 # jq
@@ -228,7 +229,7 @@ echo -n "Installing masscan";
 masscan="https://github.com/robertdavidgraham/masscan";
 git clone -q $masscan;
 cd masscan/; make -s;
-mv bin/masscan ../tools/; cd ..;
+mv bin/masscan ../tools/; cd ..; rm -rf masscan;
 echo -e "\t \tDone ✔";
 
 # gf-patterns
@@ -262,30 +263,34 @@ git clone -q https://github.com/nsonaniya2010/SubDomainizer; mv SubDomainizer to
 echo -e "\t \tDone ✔";
 echo "";
 
-echo "${RED}2-Downloading Wordlists";
+echo -e "${RED}2-Downloading Wordlists${NC}";
 echo "";
 # seclists
-echo "Downloading SecLists";
+echo -n "Downloading SecLists";
 seclists="https://github.com/danielmiessler/SecLists";
 git clone -q $seclists; mv SecLists wordlists/;
 echo -e "\t \tDone ✔";
 
 # Custom-Wordlists
-echo "Downloading Custom Wordlists";
+echo -n "Downloading Custom Wordlists";
 wget -q "https://raw.githubusercontent.com/ayoubfathi/leaky-paths/main/leaky-paths.txt";
 mv leaky-paths.txt wordlists/;
 wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/config-wordlist";
 mv config-wordlist wordlists/;
 wget -q "https://wordlists-cdn.assetnote.io/data/manual/best-dns-wordlist.txt";
-wget -q best-dns-wordlist.txt wordlists/;
-echo -e "\t \tDone ✔"
+mv best-dns-wordlist.txt wordlists/;
+echo -e "\t \tDone ✔";
 
 # Resolvers
-echo "3-Downloading fresh resolvers";
+echo -e"${RED}3-Downloading fresh resolvers${NC}";
 wget -q "https://raw.githubusercontent.com/proabiral/Fresh-Resolvers/master/resolvers.txt";
 mv resolvers.txt tools/;
 echo -e "\t \tDone ✔";
 
 echo "";
+rm vps-ready.sh;
+rm LICENSE*;
+rm *.md;
+mkdir programs;
 cd tools/; chmod +x *;
-echo -e "${YELLOW}Finished! Your VPS ready";
+echo -e "${YELLOW}Finished! Your VPS ready${NC}";
