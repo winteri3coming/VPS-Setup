@@ -221,7 +221,7 @@ echo "Done";
 echo "Installing masscan";
 masscan="https://github.com/robertdavidgraham/masscan";
 git clone -q $masscan;
-cd masscan/; make;
+cd masscan/; make -s;
 mv bin/masscan ../tools/; cd ..;
 echo "Done";
 
@@ -245,7 +245,7 @@ echo "Done";
 
 # knockpy
 echo "Installing knockpy";
-git clone https://github.com/guelfoweb/knock; cd knock;
+git clone -q https://github.com/guelfoweb/knock; cd knock;
 pip3 -q install -r requirements.txt;
 python3 setup.py install 2>/dev/null; cd ..; mv knock tools/;
 echo "Done";
@@ -254,9 +254,10 @@ echo "Done";
 echo "Installing Subdomanizer";
 git clone -q https://github.com/nsonaniya2010/SubDomainizer; mv SubDomainizer tools/;
 echo "Done";
+echo "";
 
 echo "2- Wordlists";
-
+echo "";
 # seclists
 echo "Downloading SecLists";
 seclists="https://github.com/danielmiessler/SecLists";
@@ -266,7 +267,7 @@ echo "Done";
 # Custom-Wordlists
 echo "Downloading Custom Wordlists";
 wget -q "https://raw.githubusercontent.com/ayoubfathi/leaky-paths/main/leaky-paths.txt";
-mv leaky-paths wordlists/;
+mv leaky-paths.txt wordlists/;
 wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/config-wordlist";
 mv config-wordlist wordlists/;
 wget -q "https://wordlists-cdn.assetnote.io/data/manual/best-dns-wordlist.txt";
