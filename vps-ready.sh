@@ -21,7 +21,7 @@ export PATH=$PATH:/dev/shm/tools
 echo "Installing go"
 wget -q https://go.dev/dl/go1.19.3.linux-amd64.tar.gz; tar -xzf go1.19.3.linux-amd64.tar.gz;
 rm go1.19.3.linux-amd64.tar.gz;
-mv go/bin/go tools/; rm -rf go;
+mv go/ tools/; export PATH=$PATH:/dev/shm/tools/go/bin/
 echo "Done";
 
 # Nuclei
@@ -57,7 +57,7 @@ echo "Installing Interactsh"
 interactsh="https://github.com/projectdiscovery/interactsh/releases/download/v1.0.7/interactsh-client_1.0.7_Linux_x86_64.zip"
 wget -q $interactsh; unzip -q -o interactsh-client_1.0.7_Linux_x86_64.zip; rm interactsh-client_1.0.7_Linux_x86_64.zip;
 mv interactsh* tools/;
-echo "";
+echo "Done";
 
 # tlsx
 echo "Installing tlsx";
@@ -155,7 +155,7 @@ echo "Done";
 
 # puredns
 echo "Installing puredns";
-puredns="github.com/d3mondev/puredns/v2@latest"
+puredns="github.com/d3mondev/puredns/v2@latest";
 go install $puredns 2>/dev/null; mv ~/go/bin/puredns tools/;
 echo "Done";
 
@@ -203,9 +203,6 @@ echo "Done";
 echo "Installing crtsh";
 wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/crtsh; mv crtsh tools/;
 echo "Done";
-echo "Installing recon_me";
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/recon_me; m recon_me tools/;
-echo "Done";
 
 # xsstrike
 xsstrike="https://github.com/s0md3v/XSStrike";
@@ -214,7 +211,7 @@ echo "Done";
 
 # massdns
 echo "Installing massdns";
-massdns="https://github.com/blechschmidt/massdns"; git clone $massdns;
+massdns="https://github.com/blechschmidt/massdns"; git clone -q $massdns;
 cd massdns; make -s; mv bin/massdns ../tools/;
 cd ..; rm -rf massdns/;
 echo "Done";
@@ -241,7 +238,7 @@ echo "Done";
 
 # recon_me
 echo "Installing recon_me";
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/recon_me;
+wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/recon_me";
 mv recon_me tools/;
 echo "Done";
 
