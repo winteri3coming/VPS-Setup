@@ -21,13 +21,13 @@ echo "";
 echo -e "${RED}1-Downloading Tools${NC}";
 echo "";
 mkdir tools; mkdir wordlists;
-export PATH=$PATH:/dev/shm/tools
+export PATH=$PATH:$(pwd)/tools
 
 # go
 echo -n "Installing go";
 wget -q https://go.dev/dl/go1.19.3.linux-amd64.tar.gz; tar -xzf go1.19.3.linux-amd64.tar.gz;
 rm go1.19.3.linux-amd64.tar.gz;
-mv go/ tools/; export PATH=$PATH:/dev/shm/tools/go/bin/
+mv go/ tools/; export PATH=$PATH:$(pwd)/tools/go/bin/
 echo -e "\t \tDone ✔";
 
 # Nuclei
