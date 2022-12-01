@@ -205,6 +205,7 @@ wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/crtsh; mv 
 echo "Done";
 
 # xsstrike
+echo "Installing XSStrike"
 xsstrike="https://github.com/s0md3v/XSStrike";
 wget -q $xsstrike; mv XSStrike tools/;
 echo "Done";
@@ -218,10 +219,10 @@ echo "Done";
 
 # masscan
 echo "Installing masscan";
-masscan="https://github.com/robertdavidgraham/masscan/archive/refs/tags/1.3.2.zip";
-wget -q $masscan; unzip -q -o 1.3.2.zip;
-cd 1.3.2; make -s; mv masscan ../tools/;
-cd ..; rm -rf 1.3.2;
+masscan="https://github.com/robertdavidgraham/masscan";
+git clone -q $masscan;
+cd masscan/; make;
+mv bin/masscan ../tools/; cd ..;
 echo "Done";
 
 # gf-patterns
