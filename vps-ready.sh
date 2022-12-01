@@ -27,63 +27,63 @@ echo "Done";
 # Nuclei
 echo "Installing Nuclei..";
 nuclei="https://github.com/projectdiscovery/nuclei/releases/download/v2.7.9/nuclei_2.7.9_linux_amd64.zip";
-wget -q $nuclei; unzip -q -q nuclei_2.7.9_linux_amd64.zip; rm nuclei_2.7.9_linux_amd64.zip;
+wget -q $nuclei; unzip -q -o nuclei_2.7.9_linux_amd64.zip; rm nuclei_2.7.9_linux_amd64.zip;
 mv nuclei tools/;
 echo "Done";
 
 # Subfinder
 echo "Installing Subfinder..";
 subfinder="https://github.com/projectdiscovery/subfinder/releases/download/v2.5.4/subfinder_2.5.4_linux_amd64.zip";
-wget -q $subfinder; unzip -q -q subfinder_2.5.4_linux_amd64.zip; rm subfinder_2.5.4_linux_amd64.zip;
+wget -q $subfinder; unzip -q -o subfinder_2.5.4_linux_amd64.zip; rm subfinder_2.5.4_linux_amd64.zip;
 mv subfinder tools/;
 echo "Done";
 
 # Naabu
 echo "Installing naabu..";
 naabu="https://github.com/projectdiscovery/naabu/releases/download/v2.1.1/naabu_2.1.1_linux_amd64.zip";
-wget -q $naabu; unzip -q -q naabu_2.1.1_linux_amd64.zip; rm naabu_2.1.1_linux_amd64.zip;
+wget -q $naabu; unzip -q -o naabu_2.1.1_linux_amd64.zip; rm naabu_2.1.1_linux_amd64.zip;
 mv naabu tools/;
 echo "Done";
 
 # Httpx
 echo "Installing httpx.. ";
 httpx="https://github.com/projectdiscovery/httpx/releases/download/v1.2.5/httpx_1.2.5_linux_amd64.zip";
-wget -q $httpx; unzip -q -q httpx_1.2.5_linux_amd64.zip; rm httpx_1.2.5_linux_amd64.zip;
+wget -q $httpx; unzip -q -o httpx_1.2.5_linux_amd64.zip; rm httpx_1.2.5_linux_amd64.zip;
 mv httpx tools/;
 echo "Done";
 
 # Interactsh
 echo "Installing Interactsh"
 interactsh="https://github.com/projectdiscovery/interactsh/releases/download/v1.0.7/interactsh-client_1.0.7_Linux_x86_64.zip"
-wget -q $interactsh; unzip -q interactsh-client_1.0.7_Linux_x86_64.zip; rm interactsh-client_1.0.7_Linux_x86_64.zip;
+wget -q $interactsh; unzip -q -o interactsh-client_1.0.7_Linux_x86_64.zip; rm interactsh-client_1.0.7_Linux_x86_64.zip;
 mv interactsh* tools/;
 echo "";
 
 # tlsx
 echo "Installing tlsx";
 tlsx="https://github.com/projectdiscovery/tlsx/releases/download/v0.0.9/tlsx_0.0.9_linux_amd64.zip";
-wget -q $tlsx; unzip -q -q tlsx_0.0.9_linux_amd64.zip; rm tlsx_0.0.9_linux_amd64.zip;
+wget -q $tlsx; unzip -q -o tlsx_0.0.9_linux_amd64.zip; rm tlsx_0.0.9_linux_amd64.zip;
 mv tlsx* tools/;
 echo "Done";
 
 # katana
 echo "Installing katana";
 katana="https://github.com/projectdiscovery/katana/releases/download/v0.0.2/katana_0.0.2_linux_amd64.zip";
-wget -q $katana;unzip -q katana_0.0.2_linux_amd64.zip;
+wget -q $katana;unzip -q -o katana_0.0.2_linux_amd64.zip;
 mv katana tools/;
 echo "Done";
 
 # dnsx
 echo "Installing dnsx";
 dnsx="https://github.com/projectdiscovery/dnsx/releases/download/v1.1.1/dnsx_1.1.1_linux_amd64.zip"
-wget -q $dnsx; unzip -q dnsx_1.1.1_linux_amd64.zip;rm dnsx_1.1.1_linux_amd64.zip;
+wget -q $dnsx; unzip -q -o dnsx_1.1.1_linux_amd64.zip;rm dnsx_1.1.1_linux_amd64.zip;
 mv dnsx tools/;
 echo "Done";
 
 # shuffledns
 echo "Installing shuffledns";
 shuffledns="https://github.com/projectdiscovery/shuffledns/releases/download/v1.0.8/shuffledns_1.0.8_linux_amd64.zip";
-wget -q $shuffledns; unzip -q shuffledns_1.0.8_linux_amd64.zip; rm shuffledns_1.0.8_linux_amd64.zip;
+wget -q $shuffledns; unzip -q -o shuffledns_1.0.8_linux_amd64.zip; rm shuffledns_1.0.8_linux_amd64.zip;
 mv shuffledns tools/;
 echo "Done";
 
@@ -149,7 +149,7 @@ echo "Done";
 # amass
 echo "Installing amass";
 amass="https://github.com/OWASP/Amass/releases/download/v3.20.0/amass_linux_amd64.zip";
-wget -q $amass; unzip -q amass_linux_amd64.zip; rm amass_linux_amd64.zip;
+wget -q $amass; unzip -q -o amass_linux_amd64.zip; rm amass_linux_amd64.zip;
 mv amass_linux_amd64/amass tools/; rm -rf amass_linux_amd64;
 echo "Done";
 
@@ -222,7 +222,7 @@ echo "Done";
 # masscan
 echo "Installing masscan";
 masscan="https://github.com/robertdavidgraham/masscan/archive/refs/tags/1.3.2.zip";
-wget -q $masscan; unzip -q 1.3.2.zip;
+wget -q $masscan; unzip -q -o 1.3.2.zip;
 cd 1.3.2; make -s; mv masscan ../tools/;
 cd ..; rm -rf 1.3.2;
 echo "Done";
@@ -276,11 +276,11 @@ wget -q best-dns-wordlist.txt wordlists/;
 echo "Done"
 
 # Resolvers
-echo "3-Downloading fresh resolvers"
+echo "3-Downloading fresh resolvers";
 wget -q "https://raw.githubusercontent.com/proabiral/Fresh-Resolvers/master/resolvers.txt";
-mv resolvers.txt tools/
+mv resolvers.txt tools/;
 echo "Done";
 
 echo "";
 cd tools/; chmod +x *;
-echo "Finished! Your VPS is ready";
+echo "Finished! Your VPS ready";
