@@ -1,268 +1,273 @@
 #!/bin/bash
+RED='\033[0;31m';
+GREEN='\033[0;32m';
+YELLOW='\033[1;33m';
 
-echo "
-__      _______   _____ _____ _______ 
- \ \    / /  __ \ / ____|_   _|__   __|
-  \ \  / /| |__) | (___   | |    | |   
-   \ \/ / |  ___/ \___ \  | |    | |   
-    \  /  | |     ____) |_| |_   | |   
-     \/   |_|    |_____/|_____|  |_|   
-                                       
-                                       
+echo -e "${YELLOW}
+ __      __                   _    _         _ 
+ \ \    / /                  | |  | |       | |
+  \ \  / /_ __   ___  ______ | |  | | _ __  | |
+   \ \/ /| '_ \ / __||______|| |  | || '_ \ | |
+    \  / | |_) |\__ \        | |__| || |_) ||_|
+     \/  | .__/ |___/         \____/ | .__/ (_)
+         | |                         | |       
+         |_|                         |_| ${GREEN}@winteriscoming    
+                                
 ";
 
+
 echo "";
-echo "1- Downloading Tools";
+echo "${RED}1-Downloading Tools";
 echo "";
 mkdir tools; mkdir wordlists;
 export PATH=$PATH:/dev/shm/tools
 
 # go
-echo "Installing go"
+echo -n "Installing go"
 wget -q https://go.dev/dl/go1.19.3.linux-amd64.tar.gz; tar -xzf go1.19.3.linux-amd64.tar.gz;
 rm go1.19.3.linux-amd64.tar.gz;
 mv go/ tools/; export PATH=$PATH:/dev/shm/tools/go/bin/
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # Nuclei
-echo "Installing Nuclei..";
+echo -n "Installing Nuclei";
 nuclei="https://github.com/projectdiscovery/nuclei/releases/download/v2.7.9/nuclei_2.7.9_linux_amd64.zip";
 wget -q $nuclei; unzip -q -o nuclei_2.7.9_linux_amd64.zip; rm nuclei_2.7.9_linux_amd64.zip;
 mv nuclei tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # Subfinder
-echo "Installing Subfinder..";
+echo -n "Installing Subfinder";
 subfinder="https://github.com/projectdiscovery/subfinder/releases/download/v2.5.4/subfinder_2.5.4_linux_amd64.zip";
 wget -q $subfinder; unzip -q -o subfinder_2.5.4_linux_amd64.zip; rm subfinder_2.5.4_linux_amd64.zip;
 mv subfinder tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # Naabu
-echo "Installing naabu..";
+echo -n "Installing naabu";
 naabu="https://github.com/projectdiscovery/naabu/releases/download/v2.1.1/naabu_2.1.1_linux_amd64.zip";
 wget -q $naabu; unzip -q -o naabu_2.1.1_linux_amd64.zip; rm naabu_2.1.1_linux_amd64.zip;
 mv naabu tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # Httpx
-echo "Installing httpx.. ";
+echo -n "Installing httpx";
 httpx="https://github.com/projectdiscovery/httpx/releases/download/v1.2.5/httpx_1.2.5_linux_amd64.zip";
 wget -q $httpx; unzip -q -o httpx_1.2.5_linux_amd64.zip; rm httpx_1.2.5_linux_amd64.zip;
 mv httpx tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # Interactsh
-echo "Installing Interactsh"
+echo -n "Installing Interactsh"
 interactsh="https://github.com/projectdiscovery/interactsh/releases/download/v1.0.7/interactsh-client_1.0.7_Linux_x86_64.zip"
 wget -q $interactsh; unzip -q -o interactsh-client_1.0.7_Linux_x86_64.zip; rm interactsh-client_1.0.7_Linux_x86_64.zip;
 mv interactsh* tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # tlsx
-echo "Installing tlsx";
+echo -n "Installing tlsx";
 tlsx="https://github.com/projectdiscovery/tlsx/releases/download/v0.0.9/tlsx_0.0.9_linux_amd64.zip";
 wget -q $tlsx; unzip -q -o tlsx_0.0.9_linux_amd64.zip; rm tlsx_0.0.9_linux_amd64.zip;
 mv tlsx* tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # katana
-echo "Installing katana";
+echo -n "Installing katana";
 katana="https://github.com/projectdiscovery/katana/releases/download/v0.0.2/katana_0.0.2_linux_amd64.zip";
 wget -q $katana;unzip -q -o katana_0.0.2_linux_amd64.zip;
 mv katana tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # dnsx
-echo "Installing dnsx";
+echo -n "Installing dnsx";
 dnsx="https://github.com/projectdiscovery/dnsx/releases/download/v1.1.1/dnsx_1.1.1_linux_amd64.zip"
 wget -q $dnsx; unzip -q -o dnsx_1.1.1_linux_amd64.zip;rm dnsx_1.1.1_linux_amd64.zip;
 mv dnsx tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # shuffledns
-echo "Installing shuffledns";
+echo -n "Installing shuffledns";
 shuffledns="https://github.com/projectdiscovery/shuffledns/releases/download/v1.0.8/shuffledns_1.0.8_linux_amd64.zip";
 wget -q $shuffledns; unzip -q -o shuffledns_1.0.8_linux_amd64.zip; rm shuffledns_1.0.8_linux_amd64.zip;
 mv shuffledns tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # qsreplace
-echo "Installing qsreplace";
+echo -n "Installing qsreplace";
 qsreplace="https://github.com/tomnomnom/qsreplace/releases/download/v0.0.3/qsreplace-linux-amd64-0.0.3.tgz";
 wget -q $qsreplace; tar -xzf qsreplace-linux-amd64-0.0.3.tgz; rm qsreplace-linux-amd64-0.0.3.tgz;
 mv qsreplace tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # assetfinder
-echo "Installing assetfinder";
+echo -n "Installing assetfinder";
 assetfinder="https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz";
 wget -q $assetfinder; tar -xzf assetfinder-linux-amd64-0.1.1.tgz; rm assetfinder-linux-amd64-0.1.1.tgz;
 mv assetfinder tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # httprobe
-echo "Installing httprobe";
+echo -n "Installing httprobe";
 httprobe="https://github.com/tomnomnom/httprobe/releases/download/v0.2/httprobe-linux-amd64-0.2.tgz";
 wget -q $httprobe; tar -xzf httprobe-linux-amd64-0.2.tgz; rm httprobe-linux-amd64-0.2.tgz;
 mv httprobe tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # waybackurls
-echo "Installing waybackurls";
+echo -n "Installing waybackurls";
 waybackurls="https://github.com/tomnomnom/waybackurls/releases/download/v0.1.0/waybackurls-linux-amd64-0.1.0.tgz";
 wget -q $waybackurls; tar -xzf waybackurls-linux-amd64-0.1.0.tgz; rm waybackurls-linux-amd64-0.1.0.tgz;
 mv waybackurls tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # dalfox
-echo "Installing dalfox"
+echo -n "Installing dalfox"
 dalfox="https://github.com/hahwul/dalfox/releases/download/v2.8.2/dalfox_2.8.2_linux_amd64.tar.gz";
 wget -q $dalfox; tar -xzf dalfox_2.8.2_linux_amd64.tar.gz; rm dalfox_2.8.2_linux_amd64.tar.gz;
 mv dalfox tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # gau
-echo "Installing gau";
+echo -n "Installing gau";
 gau="https://github.com/lc/gau/releases/download/v2.1.2/gau_2.1.2_linux_amd64.tar.gz";
 wget -q $gau; tar -xzf gau_2.1.2_linux_amd64.tar.gz; rm gau_2.1.2_linux_amd64.tar.gz;
 mv gau tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # ffuf
-echo "Installing ffuf";
+echo -n "Installing ffuf";
 ffuf="https://github.com/ffuf/ffuf/releases/download/v1.5.0/ffuf_1.5.0_linux_amd64.tar.gz";
 wget -q $ffuf; tar -xzf ffuf_1.5.0_linux_amd64.tar.gz; rm ffuf_1.5.0_linux_amd64.tar.gz;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # jq
-echo "Installing jq";
+echo -n "Installing jq";
 jq="https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64";
 wget -q $jq; mv jq-linux64 tools/jq;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # arjun
-echo "Installing arjun";
+echo -n "Installing arjun";
 pip3 -q install arjun;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # amass
-echo "Installing amass";
+echo -n "Installing amass";
 amass="https://github.com/OWASP/Amass/releases/download/v3.20.0/amass_linux_amd64.zip";
 wget -q $amass; unzip -q -o amass_linux_amd64.zip; rm amass_linux_amd64.zip;
 mv amass_linux_amd64/amass tools/; rm -rf amass_linux_amd64;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # puredns
-echo "Installing puredns";
+echo -n "Installing puredns";
 puredns="github.com/d3mondev/puredns/v2@latest";
 go install $puredns 2>/dev/null; mv ~/go/bin/puredns tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # gf
-echo "Installing gf";
+echo -n "Installing gf";
 gf="https://github.com/FrozenOption/VPS-Setup/raw/main/gf";
 wget -q $gf; mv gf tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # anew 
-echo "Installing anew";
+echo -n "Installing anew";
 anew="https://github.com/FrozenOption/VPS-Setup/raw/main/anew";
 wget -q $anew; mv anew tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # filter-resolved
-echo "Installing filter-resolved";
+echo -n "Installing filter-resolved";
 filterresolved="https://github.com/FrozenOption/VPS-Setup/raw/main/filter-resolved";
 wget -q $filterresolved; mv filter-resolved tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # altdns
-echo "Installing altdns";
+echo -n "Installing altdns";
 pip3 -q install py-altdns==1.0.2;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # dnsgen
-echo "Installing dnsgen"
+echo -n "Installing dnsgen"
 pip3 -q install dnsgen;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 #gotator
-echo "Installing gotator";
+echo -n "Installing gotator";
 go install github.com/Josue87/gotator@latest 2>/dev/null;
 mv ~/go/bin/gotator tools/;
-echo "Done"
+echo -e "\t \tDone ✔"
 
 # mytools
-echo "Installing sectrails";
+echo -n "Installing sectrails";
 wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/sectrails; mv sectrails tools/;
-echo "Done";
-echo "Installing rapidns";
+echo -e "\t \tDone ✔";
+echo -n "Installing rapidns";
 wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/rapidns; mv rapidns tools/;
-echo "Done";
-echo "Installing crtsh";
+echo -e "\t \tDone ✔";
+echo -n "Installing crtsh";
 wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/crtsh; mv crtsh tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # xsstrike
-echo "Installing XSStrike"
+echo -n "Installing XSStrike"
 xsstrike="https://github.com/s0md3v/XSStrike";
 wget -q $xsstrike; mv XSStrike tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # massdns
-echo "Installing massdns";
+echo -n "Installing massdns";
 massdns="https://github.com/blechschmidt/massdns"; git clone -q $massdns;
 cd massdns; make -s; mv bin/massdns ../tools/;
 cd ..; rm -rf massdns/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # masscan
-echo "Installing masscan";
+echo -n "Installing masscan";
 masscan="https://github.com/robertdavidgraham/masscan";
 git clone -q $masscan;
 cd masscan/; make -s;
 mv bin/masscan ../tools/; cd ..;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # gf-patterns
-echo "Installing gf-patterns";
+echo -n "Installing gf-patterns";
 gfpatterns="https://github.com/robre/gf-patterns";
 git clone -q $gfpatterns; mv gf-patterns tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # cent
-echo "Installing cent";
+echo -n "Installing cent";
 cent="https://github.com/xm1k3/cent";
 git clone -q $cent; mv cent tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # recon_me
-echo "Installing recon_me";
+echo -n "Installing recon_me";
 wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/recon_me";
 mv recon_me tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # knockpy
-echo "Installing knockpy";
+echo -n "Installing knockpy";
 git clone -q https://github.com/guelfoweb/knock; cd knock;
 pip3 -q install -r requirements.txt;
 python3 setup.py install 2>/dev/null; cd ..; mv knock tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # subdomanizer
-echo "Installing Subdomanizer";
+echo -n "Installing Subdomanizer";
 git clone -q https://github.com/nsonaniya2010/SubDomainizer; mv SubDomainizer tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 echo "";
 
-echo "2- Wordlists";
+echo "${RED}2-Downloading Wordlists";
 echo "";
 # seclists
 echo "Downloading SecLists";
 seclists="https://github.com/danielmiessler/SecLists";
 git clone -q $seclists; mv SecLists wordlists/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 # Custom-Wordlists
 echo "Downloading Custom Wordlists";
@@ -272,14 +277,14 @@ wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/config-wo
 mv config-wordlist wordlists/;
 wget -q "https://wordlists-cdn.assetnote.io/data/manual/best-dns-wordlist.txt";
 wget -q best-dns-wordlist.txt wordlists/;
-echo "Done"
+echo -e "\t \tDone ✔"
 
 # Resolvers
 echo "3-Downloading fresh resolvers";
 wget -q "https://raw.githubusercontent.com/proabiral/Fresh-Resolvers/master/resolvers.txt";
 mv resolvers.txt tools/;
-echo "Done";
+echo -e "\t \tDone ✔";
 
 echo "";
 cd tools/; chmod +x *;
-echo "Finished! Your VPS ready";
+echo "${YELLOW}Finished! Your VPS ready";
