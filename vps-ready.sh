@@ -24,14 +24,14 @@ mkdir tools; mkdir wordlists;
 export PATH=$PATH:/dev/shm/tools
 
 # go
-echo -e "Installing go";
+echo -n "Installing go";
 wget -q https://go.dev/dl/go1.19.3.linux-amd64.tar.gz; tar -xzf go1.19.3.linux-amd64.tar.gz;
 rm go1.19.3.linux-amd64.tar.gz;
 mv go/ tools/; export PATH=$PATH:/dev/shm/tools/go/bin/
 echo -e "\t \tDone ✔";
 
 # Nuclei
-echo -e "Installing Nuclei";
+echo -n "Installing Nuclei";
 nuclei="https://github.com/projectdiscovery/nuclei/releases/download/v2.7.9/nuclei_2.7.9_linux_amd64.zip";
 wget -q $nuclei; unzip -q -o nuclei_2.7.9_linux_amd64.zip; rm nuclei_2.7.9_linux_amd64.zip;
 mv nuclei tools/;
