@@ -77,7 +77,7 @@ mv findomain.txt .$domain/;
 echo -ne "${YELLOW}google dorks: "
 sd-goo $domain 2>/dev/null >googledorks1.txt;sleep 5
 sd-goo $domain 2>/dev/null >>googledorks1.txt;sleep 5;
-sd-goo $domain 2>/dev/null >>>googledorks1.txt
+sd-goo $domain 2>/dev/null >>googledorks1.txt
 cat googledorks1.txt | sort -u > googledorks.txt; rm googledorks1.txt;
 echo -e "${YELLOW}$(wc -l googledorks.txt | cut -d' ' -f1) subdomains${NC}";
 mv googledorks.txt .$domain/;
@@ -96,14 +96,6 @@ cat github1.txt | sort -u > github.txt; rm github1.txt;
 echo -e "${YELLOW}$(wc -l github.txt | cut -d' ' -f1) subdomains${NC}";
 mv github.txt .$domain/;
 
-# amass
-echo -ne "${YELLOW}amass: "
-amass enum -passive -d $domain 2>/dev/null >amass1.txt
-amass enum -active -d $domain 2>/dev/null >>amass1.txt
-cat amass1.txt | sort -u > amass.txt;rm amass1.txt;
-echo -e "${YELLOW}$(wc -l amass.txt | cut -d' ' -f1) subdomains${NC}";
-mv amass.txt .$domain/;
-
 # waybackurls
 echo -ne "${YELLOW}waybackurls: "
 waybackurls $domain | unfurl format %d | sort -u > waybackurls.txt
@@ -115,6 +107,14 @@ echo -ne "${YELLOW}waybackurls: "
 gau $domain | unfurl format %d | sort -u > gau.txt
 echo -e "${YELLOW}$(wc -l gau.txt | cut -d' ' -f1) subdomains${NC}";
 mv gau.txt .$domain/;
+
+# amass
+echo -ne "${YELLOW}amass: "
+amass enum -passive -d $domain 2>/dev/null >amass1.txt
+amass enum -active -d $domain 2>/dev/null >>amass1.txt
+cat amass1.txt | sort -u > amass.txt;rm amass1.txt;
+echo -e "${YELLOW}$(wc -l amass.txt | cut -d' ' -f1) subdomains${NC}";
+mv amass.txt .$domain/;
 
 # firece
 echo -ne "${YELLOW}fierce: "
@@ -134,7 +134,7 @@ mv amass-bruteforce.txt .$domain/;
 
 # puredns
 echo -ne "${YELLOW}puredns: ";
-puredns bruteforce wordlists/best-dns-wordlist.txt $domain --resolvers tools/resolvers.txt -w puredns.txt; 1>/dev/null 2>/dev/null;
+puredns bruteforce wordlists/best-dns-wordlist.txt $domain --resolvers tools/resolvers.txt -w puredns.txt 1>/dev/null 2>/dev/null;
 echo -e "${YELLOW}$(wc -l puredns.txt | cut -d' ' -f1) subdomains${NC}";
 mv puredns.txt .$domain/;
 
