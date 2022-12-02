@@ -252,7 +252,7 @@ echo -e "\t \tDone ✔";
 
 # unfurl
 echo -n "Installing unfurl"
-go install github.com/tomnomnom/unfurl@latest;
+go install github.com/tomnomnom/unfurl@latest 2>/dev/null;
 mv ~/go/bin/unfurl tools/;
 echo -e "\t \tDone ✔";
 
@@ -278,6 +278,12 @@ echo -e "\t \tDone ✔";
 echo -n "Installing Subdomanizer";
 git clone -q https://github.com/nsonaniya2010/SubDomainizer; mv SubDomainizer tools/;
 echo -e "\t \tDone ✔";
+
+# github-subdomains
+echo -n "Installing github-subdomains";
+go install github.com/gwen001/github-subdomains@latest 2>/dev/null;
+mv ~/go/bin/github-subdomains tools/;
+echo -e "\t \tDone ✔";
 echo "";
 
 echo -e "${RED}2-Downloading Wordlists${NC}";
@@ -299,7 +305,7 @@ mv best-dns-wordlist.txt wordlists/;
 echo -e "\t \tDone ✔";
 
 # Resolvers
-echo -e "${RED}3-Downloading fresh resolvers${NC}";
+echo -n "Downloading fresh resolvers";
 wget -q "https://raw.githubusercontent.com/proabiral/Fresh-Resolvers/master/resolvers.txt";
 mv resolvers.txt tools/;
 echo -e "\t \tDone ✔";
