@@ -184,6 +184,11 @@ filterresolved="https://github.com/FrozenOption/VPS-Setup/raw/main/filter-resolv
 wget -q $filterresolved; mv filter-resolved tools/;
 echo -e "\t \tDone ✔";
 
+# fierce
+echo -n "Installing fierce";
+pip3 -q install fierce;
+echo -e "\t \tDone ✔";
+
 # altdns
 echo -n "Installing altdns";
 pip3 -q install py-altdns==1.0.2;
@@ -244,17 +249,15 @@ cent="https://github.com/xm1k3/cent";
 git clone -q $cent; mv cent tools/;
 echo -e "\t \tDone ✔";
 
+# sd-goo
+echo -n "Installing sd-goo";
+wget -q https://raw.githubusercontent.com/darklotuskdb/sd-goo/main/sd-goo.sh;
+mv sd-goo tools/;
+echo -e "\t \tDone ✔";
 # recon_me
 echo -n "Installing recon_me";
 wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/recon_me";
 mv recon_me tools/;
-echo -e "\t \tDone ✔";
-
-# knockpy
-echo -n "Installing knockpy";
-git clone -q https://github.com/guelfoweb/knock; cd knock;
-pip3 -q install -r requirements.txt;
-python3 setup.py install 2>/dev/null; cd ..; mv knock tools/;
 echo -e "\t \tDone ✔";
 
 # subdomanizer
