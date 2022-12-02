@@ -51,6 +51,13 @@ wget -q $naabu; unzip -q -o naabu_2.1.1_linux_amd64.zip; rm naabu_2.1.1_linux_am
 mv naabu tools/;
 echo -e "\t \tDone ✔";
 
+# Findomain
+echo -n "Installing findomain";
+findomain="https://github.com/Findomain/Findomain/releases/download/8.2.1/findomain-linux-i386.zip";
+wget -q $findomain; unzip -q -o findomain-linux-i386.zip; rm findomain-linux-i386.zip;
+mv findomain tools/;
+echo -e "\t \tDone ✔";
+
 # Httpx
 echo -n "Installing httpx";
 httpx="https://github.com/projectdiscovery/httpx/releases/download/v1.2.5/httpx_1.2.5_linux_amd64.zip";
@@ -243,6 +250,12 @@ gfpatterns="https://github.com/robre/gf-patterns";
 git clone -q $gfpatterns; mv gf-patterns tools/;
 echo -e "\t \tDone ✔";
 
+# unfurl
+echo -n "Installing unfurl"
+go install github.com/tomnomnom/unfurl@latest;
+mv ~/go/bin/unfurl tools/;
+echo -e "\t \tDone ✔";
+
 # cent
 echo -n "Installing cent";
 cent="https://github.com/xm1k3/cent";
@@ -252,8 +265,9 @@ echo -e "\t \tDone ✔";
 # sd-goo
 echo -n "Installing sd-goo";
 wget -q https://raw.githubusercontent.com/darklotuskdb/sd-goo/main/sd-goo.sh;
-mv sd-goo tools/;
+mv sd-goo.sh tools/sd-goo;
 echo -e "\t \tDone ✔";
+
 # recon_me
 echo -n "Installing recon_me";
 wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/recon_me";
@@ -285,7 +299,7 @@ mv best-dns-wordlist.txt wordlists/;
 echo -e "\t \tDone ✔";
 
 # Resolvers
-echo -e"${RED}3-Downloading fresh resolvers${NC}";
+echo -e "${RED}3-Downloading fresh resolvers${NC}";
 wget -q "https://raw.githubusercontent.com/proabiral/Fresh-Resolvers/master/resolvers.txt";
 mv resolvers.txt tools/;
 echo -e "\t \tDone ✔";
