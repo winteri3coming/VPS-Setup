@@ -84,8 +84,6 @@ mv googledorks.txt .$domain/;
 
 # github
 echo -ne "${YELLOW}github: "
-go install github.com/gwen001/github-subdomains@latest;
-mv ~/go/bin/github-subdomains tools/;
 export export GITHUB_TOKEN=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;
 github-subdomains -d $domain 2>/dev/null>github1.txt;sleep 6;
 github-subdomains -d $domain 2>/dev/null>>github1.txt;sleep 6;
