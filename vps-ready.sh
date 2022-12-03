@@ -204,6 +204,8 @@ echo -e "\t \tDone ✔";
 # dnsgen
 echo -n "Installing dnsgen"
 pip3 -q install dnsgen;
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/dnsgen;
+mv dnsgen tools/;
 echo -e "\t \tDone ✔";
 
 #gotator
@@ -302,6 +304,8 @@ wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/config-wo
 mv config-wordlist wordlists/;
 wget -q "https://wordlists-cdn.assetnote.io/data/manual/best-dns-wordlist.txt";
 mv best-dns-wordlist.txt wordlists/;
+wget -q "https://raw.githubusercontent.com/infosec-au/altdns/master/words.txt";
+mv words.txt tools/;
 echo -e "\t \tDone ✔";
 
 # Resolvers
