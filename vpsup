@@ -193,7 +193,9 @@ echo -e "\t \tDone ✔";
 
 # fierce
 echo -n "Installing fierce";
-pip3 -q install fierce;
+git clone -q https://github.com/mschwager/fierce.git; cd fierce;
+pip3 install -r requirements.txt -q; cd ..;
+mv fierce/ tools/;
 echo -e "\t \tDone ✔";
 
 # altdns
