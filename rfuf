@@ -116,7 +116,7 @@ mv amass.txt .$domain/;
 
 # firece
 echo -ne "${YELLOW}fierce: "
-python3 -m fierce --domain $domain>fierce1.txt; cat fierce2.txt | grep Found | awk '{print $2}' | sed 's/\.$//g'>fierce.txt
+python3 tools/fierce/fierce/fierce.py --domain $domain > fierce2.txt; cat fierce2.txt | grep Found | awk '{print $2}' | sed 's/\.$//g' > fierce.txt;
 echo -e "${YELLOW}$(wc -l fierce.txt | cut -d' ' -f1) subdomains${NC}";
 mv fierce.txt .$domain/;
 
@@ -126,7 +126,7 @@ echo -e "${RED}Bruteforcing Subdomains for $domain${NC}";
 
 # amass
 echo -ne "${YELLOW}amass: ";
-amass enum -active -brute -d $domain 2>/dev/null >amass-bruteforce.txt
+amass enum -active -brute -d $domain 2>/dev/null > amass-bruteforce.txt;
 echo -e "${YELLOW}$(wc -l amass-bruteforce.txt | cut -d' ' -f1) subdomains${NC}";
 mv amass-bruteforce.txt .$domain/;
 
@@ -169,7 +169,7 @@ rm dnsgen1.txt; mv dnsgen.txt .$domain/;
 
 # gotator
 echo -ne "${YELLOW}gotator: ";
-gotator -sub raw.txt -depth 2 > gotator1.txt
+gotator -sub raw.txt -depth 2 -silent > gotator1.txt
 cat gotator1.txt | puredns resolve --resolvers tools/resolvers.txt -q -w gotator.txt 1>/dev/null 2>/dev/null;
 echo -e "${YELLOW}$(wc -l gotator.txt | cut -d' ' -f1) subdomains${NC}";
 cat gotator.txt | anew resolved.txt 1>/dev/null;
@@ -195,7 +195,7 @@ echo -e "Unique Ips: ${YELLOW}$(wc -l ips.txt | cut -d' ' -f1)${NC}";
 echo "";
 echo -e "${RED}Ports Scanning (Top 1000 Ports)${NC}"
 echo -ne "${YELLOW}Naabu: ";
-naabu -l resolved.txt -retries 1 -warm-up-time 0 -rate 1000 -top-ports 1000| anew ports.txt 1>/dev/null 2>/dev/null;
+naabu -l resolved.txt -retries 1 -warm-up-time 0 -rate 1000 -top-ports 1000 -silent | anew ports.txt 1>/dev/null 2>/dev/null;
 echo -e "Done ";
 
 # Use nmap or masscan on ur own machine, save the output as an xml file and throw it to brutespray.
@@ -204,7 +204,7 @@ echo -e "Done ";
 echo "";
 echo -e "${RED}Probing the open ports${NC}"
 echo -ne "${YELLOW}httpx: ";
-cat resolved.txt | httpx -retries 5 -maxhr 999999 | anew alive.txt 1>/dev/null 2>/dev/null;
+cat resolved.txt | httpx -retries 5 -maxhr 999999 -silent | anew alive.txt 1>/dev/null 2>/dev/null;
 cat ports.txt | grep -vE ":80$" | grep -vE ":443" | httpx -retries 5 -maxhr 99999 | anew alive.txt 1>/dev/null 2>/dev/null;
 echo -e "Webservers found: ${YELLOW}$(wc -l alive.txt | cut -d' ' -f1)${NC}";
 
@@ -226,8 +226,9 @@ echo -e "${YELLOW}$(wc -l subover.txt | cut -d' ' -f1) possible takeover!${NC}";
 # subzy
 echo -ne "${YELLOW}subzy: ";
 subzy -targets resolved.txt -timeout 20 -https -hide_fails | anew subzy1.txt 2>/dev/null 1>/dev/null;
-cat subzy.txt | grep -i 'vulnerable' | anew subzy.txt 1>/dev/null 2>/dev/null;
+cat subzy1.txt | grep -i 'vulnerable' | anew subzy.txt 1>/dev/null 2>/dev/null;
 echo -e "${YELLOW}$(wc -l subzy.txt | cut -d' ' -f1) possible takeover!${NC}";
+rm subzy1.txt;
 
 # Favicon trick
 echo "";
