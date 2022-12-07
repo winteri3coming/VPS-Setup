@@ -189,7 +189,7 @@ for host in $(cat resolved.txt); do echo $host:$(dig +short A $host | grep -E '[
 for host in $(cat resolved.txt); do echo $host:$(dig +short A $host | grep -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1) | anew host-ip.txt 1>/dev/null; done;
 for host in $(cat resolved.txt); do echo $host:$(dig +short A $host | grep -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1) | anew host-ip.txt 1>/dev/null; done;
 cat host-ip.txt | cut -d":" -f2 | sort -u > ips.txt;
-echo -e "Unique Ips: ${YELLOW}$(wc -l ips.txt | cut -d' ' -f1)${NC}";
+echo -e "${YELLOW}$(wc -l ips.txt | cut -d' ' -f1) unique Ips found${NC}";
 
 # Ports Scanning
 echo "";
@@ -205,7 +205,7 @@ echo "";
 echo -e "${RED}Probing the open ports${NC}"
 echo -ne "${YELLOW}httpx: ";
 cat resolved.txt | httpx -retries 5 -maxhr 999999 -silent | anew alive.txt 1>/dev/null 2>/dev/null;
-cat ports.txt | grep -vE ":80$" | grep -vE ":443" | httpx -retries 5 -maxhr 99999 | anew alive.txt 1>/dev/null 2>/dev/null;
+cat ports.txt | grep -vE ":80$" | grep -vE ":443" | httpx -retries 5 -maxhr 99999 -silent | anew alive.txt 1>/dev/null 2>/dev/null;
 echo -e "Webservers found: ${YELLOW}$(wc -l alive.txt | cut -d' ' -f1)${NC}";
 
 # Subdomain Takeover
@@ -213,7 +213,7 @@ echo "";
 echo -e "${RED}Scanning for Subdomain Takeover${NC}"
 
 # subjack
-echo -ne "${YELLOW}subjack: ";
+echo -ne "${YELLOW}subjack: "; touch subjack.txt;
 subjack -w resolved.txt -t 30 -ssl -o subjack.txt 2>/dev/null 1>/dev/null;
 echo -e "${YELLOW}$(wc -l subjack.txt | cut -d' ' -f1) possible takeover!${NC}";
 
@@ -232,9 +232,9 @@ rm subzy1.txt;
 
 # Favicon trick
 echo "";
-echo -ne "${YELLOW}extracting hashes: ";
-cat httpx.txt | python3 tools/FavFreak/favfreak.py -o .favreak;
-ls .favfreak/ | while read hash; do echo $hash | sed 's/\.txt//g' | anew hashes1.txt 1>/dev/null 2>/dev/null; done
+echo -ne "${RED}Extracting hashes: ${NC}";
+cat alive.txt | python3 tools/FavFreak/favfreak.py -o .favreak 1>/dev/null 2>/dev/null;
+ls .favfreak/ 1>/dev/null 2>/dev/null | while read hash; do echo $hash | sed 's/\.txt//g' | anew hashes1.txt 1>/dev/null 2>/dev/null; done
 cat hashes1.txt | grep -vE '^0$' > hashes.txt
 echo -e "${YELLOW}$(wc -l hashes.txt | cut -d' ' -f1) unique hashes!${NC}";
 cd .favfreak/; cat -- * | sort -u | anew ../favicon-links.txt 1>/dev/null 2>/dev/null;
