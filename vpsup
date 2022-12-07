@@ -263,8 +263,8 @@ echo -e "\t \tDone ✔";
 echo -n "Installing crtsh";
 wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/crtsh; mv crtsh tools/;
 echo -e "\t \tDone ✔";
-echo -n "Installing crtsh";
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/crtsh; mv crtsh tools/;
+echo -n "Installing precursive";
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/precursive; mv precursive tools/;
 echo -e "\t \tDone ✔";
 
 # xsstrike
@@ -312,10 +312,10 @@ wget -q https://raw.githubusercontent.com/darklotuskdb/sd-goo/main/sd-goo.sh;
 mv sd-goo.sh tools/sd-goo;
 echo -e "\t \tDone ✔";
 
-# recon_me
-echo -n "Installing recon_me";
-wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/recon_me";
-mv recon_me tools/;
+# rfuf
+echo -n "Installing rfuf";
+wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/rfuf";
+mv rfuf tools/;
 echo -e "\t \tDone ✔";
 
 # subdomanizer
