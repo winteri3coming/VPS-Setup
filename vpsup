@@ -357,7 +357,7 @@ mv resolvers.txt tools/;
 echo -e "\t \tDone ✔";
 
 echo "";
-rm vps-ready.sh;
+rm vpsup;
 rm LICENSE*;
 rm *.md;
 mkdir programs;
