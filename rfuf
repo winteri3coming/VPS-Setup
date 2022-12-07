@@ -1,0 +1,248 @@
+#!/bin/bash
+RED='\033[0;31m';
+GREEN='\033[0;32m';
+YELLOW='\033[1;33m';
+NC='\033[0m'
+
+echo -e "${YELLOW}
+         __          __  _ 
+        / _|        / _|| |
+  _ __ | |_  _   _ | |_ | |
+ | '__||  _|| | | ||  _|| |
+ | |   | |  | |_| || |  |_|
+ |_|   |_|   \__,_||_|  (_)
+                           
+ ${GREEN}@winteriscoming${NC}";
+
+
+while getopts ":d:" input;do
+        case "$input" in
+                d) domain=${OPTARG}
+                        ;;
+                esac
+        done
+if [ -z "$domain" ]     
+        then
+                echo "Please give a domain like \"-d domain.com\""
+                exit 1
+fi
+
+mkdir .$domain
+echo "";
+echo -e "${RED}Finding Subdomains for $domain${NC}";
+
+# sectrails
+echo -ne "${YELLOW}Security Trails: "
+sectrails $domain 2>/dev/null >sectrails.txt;
+echo -e "${YELLOW}$(wc -l sectrails.txt | cut -d' ' -f1) subdomains${NC}";
+mv sectrails.txt .$domain/;
+
+# rapidns
+echo -ne "${YELLOW}Rapidns: "
+rapidns $domain 2>/dev/null >rapidns.txt;
+echo -e "${YELLOW}$(wc -l rapidns.txt | cut -d' ' -f1) subdomains${NC}";
+mv rapidns.txt .$domain/;
+
+# certsh
+echo -ne "${YELLOW}Cert.sh: "
+crtsh $domain 2>/dev/null >certsh.txt;
+echo -e "${YELLOW}$(wc -l certsh.txt | cut -d' ' -f1) subdomains${NC}";
+mv certsh.txt .$domain/;
+
+# subfinder
+echo -ne "${YELLOW}subfinder: "
+subfinder -d $domain -silent 2>/dev/null >subfinder.txt
+echo -e "${YELLOW}$(wc -l subfinder.txt | cut -d' ' -f1) subdomains${NC}";
+mv subfinder.txt .$domain/;
+
+# JLDC
+echo -ne "${YELLOW}jldc: "
+jldc $domain 2>/dev/null >jldc.txt
+echo -e "${YELLOW}$(wc -l jldc.txt | cut -d' ' -f1) subdomains${NC}";
+mv jldc.txt .$domain/;
+
+# assetfinder
+echo -ne "${YELLOW}assetfinder: "
+assetfinder --subs-only $domain 2>/dev/null >assetfinder.txt
+echo -e "${YELLOW}$(wc -l assetfinder.txt | cut -d' ' -f1) subdomains${NC}";
+mv assetfinder.txt .$domain/;
+
+# findomain
+echo -ne "${YELLOW}findomain: "
+findomain -t $domain -u findomain.txt 1>/dev/null 2>/dev/null
+echo -e "${YELLOW}$(wc -l findomain.txt | cut -d' ' -f1) subdomains${NC}";
+mv findomain.txt .$domain/;
+
+# google dorks
+echo -ne "${YELLOW}google dorks: "
+sd-goo $domain 2>/dev/null >googledorks1.txt;sleep 5
+sd-goo $domain 2>/dev/null >>googledorks1.txt;sleep 5;
+sd-goo $domain 2>/dev/null >>googledorks1.txt
+cat googledorks1.txt | sort -u > googledorks.txt; rm googledorks1.txt;
+echo -e "${YELLOW}$(wc -l googledorks.txt | cut -d' ' -f1) subdomains${NC}";
+mv googledorks.txt .$domain/;
+
+# github
+echo -ne "${YELLOW}github: "
+export GITHUB_TOKEN=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,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,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;
+github-subdomains -d $domain -raw 2>/dev/null>github1.txt;sleep 6;
+github-subdomains -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
+github-subdomains -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
+github-subdomains -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
+github-subdomains -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
+cat github1.txt | sort -u > github.txt; rm github1.txt;
+echo -e "${YELLOW}$(wc -l github.txt | cut -d' ' -f1) subdomains${NC}";
+mv github.txt .$domain/;
+
+# waybackurls
+echo -ne "${YELLOW}waybackurls: "
+waybackurls $domain | unfurl format %d | sort -u > waybackurls.txt
+echo -e "${YELLOW}$(wc -l waybackurls.txt | cut -d' ' -f1) subdomains${NC}";
+mv waybackurls.txt .$domain/;
+
+# gau
+echo -ne "${YELLOW}gau: "
+gau $domain | unfurl format %d | sort -u > gau.txt
+echo -e "${YELLOW}$(wc -l gau.txt | cut -d' ' -f1) subdomains${NC}";
+mv gau.txt .$domain/;
+
+# amass
+echo -ne "${YELLOW}amass: "
+amass enum -passive -d $domain 2>/dev/null >amass1.txt
+amass enum -active -d $domain 2>/dev/null >>amass1.txt
+cat amass1.txt | sort -u > amass.txt;rm amass1.txt;
+echo -e "${YELLOW}$(wc -l amass.txt | cut -d' ' -f1) subdomains${NC}";
+mv amass.txt .$domain/;
+
+# firece
+echo -ne "${YELLOW}fierce: "
+python3 -m fierce --domain $domain>fierce1.txt; cat fierce2.txt | grep Found | awk '{print $2}' | sed 's/\.$//g'>fierce.txt
+echo -e "${YELLOW}$(wc -l fierce.txt | cut -d' ' -f1) subdomains${NC}";
+mv fierce.txt .$domain/;
+
+# BRUTEFORCING
+echo "";
+echo -e "${RED}Bruteforcing Subdomains for $domain${NC}";
+
+# amass
+echo -ne "${YELLOW}amass: ";
+amass enum -active -brute -d $domain 2>/dev/null >amass-bruteforce.txt
+echo -e "${YELLOW}$(wc -l amass-bruteforce.txt | cut -d' ' -f1) subdomains${NC}";
+mv amass-bruteforce.txt .$domain/;
+
+# puredns
+echo -ne "${YELLOW}puredns: ";
+puredns -q bruteforce wordlists/best-dns-wordlist.txt $domain --resolvers tools/resolvers.txt -w puredns.txt 1>/dev/null 2>/dev/null;
+echo -e "${YELLOW}$(wc -l puredns.txt | cut -d' ' -f1) subdomains${NC}";
+mv puredns.txt .$domain/;
+
+# Sorting the results
+echo "";
+echo -e "${RED}Sorting the results for $domain${NC}";
+cat .$domain/* | grep -v '*' | sort -u>raw.txt
+echo -e "Total Unique Found: ${YELLOW}$(wc -l raw.txt | cut -d' ' -f1) subdomains${NC}";
+
+# Resolving Subdomains
+echo "";
+echo -e "${RED}Resolving Subdomains${NC}";
+puredns resolve --resolvers tools/resolvers.txt -w resolved.txt raw.txt 1>/dev/null 2>/dev/null;
+echo -e "${YELLOW}$(wc -l resolved.txt | cut -d' ' -f1) subdomains resolved!${NC}";
+mv resolved.txt .$domain/;
+
+# Alterations/Permutations
+echo "";
+echo -e "${RED}Permutations/Alternations${NC}"
+echo -ne "${YELLOW}altdns: ";
+python3 -m altdns -i raw.txt -o altdns2.txt -w tools/words.txt -r -s altdns1.txt -t 1000 1>/dev/null 2>/dev/null;
+cat altdns1.txt | cut -d":" -f1 > altdns.txt; rm altdns1.txt;
+cat altdns.txt | cut -d":" -f1 | anew resolved.txt 1>/dev/null;
+echo -e "${YELLOW}$(wc -l altdns.txt | cut -d' ' -f1) subdomains${NC}";
+mv altdns.txt .$domain; 
+
+# dnsgen
+echo -ne "${YELLOW}dnsgen: ";
+cat raw.txt | dnsgen - > dnsgen1.txt;
+cat raw.txt | puredns resolve --resolvers tools/resolvers.txt -q -w dnsgen.txt 1>/dev/null 2>/dev/null;
+echo -e "${YELLOW}$(wc -l dnsgen.txt | cut -d' ' -f1) subdomains${NC}";
+cat dnsgen.txt | anew resolved.txt 1>/dev/null;
+rm dnsgen1.txt; mv dnsgen.txt .$domain/;
+
+# gotator
+echo -ne "${YELLOW}gotator: ";
+gotator -sub raw.txt -depth 2 > gotator1.txt
+cat gotator1.txt | puredns resolve --resolvers tools/resolvers.txt -q -w gotator.txt 1>/dev/null 2>/dev/null;
+echo -e "${YELLOW}$(wc -l gotator.txt | cut -d' ' -f1) subdomains${NC}";
+cat gotator.txt | anew resolved.txt 1>/dev/null;
+rm gotator1.txt; mv gotator.txt .$domain/;
+
+# Sorting the results again
+echo "";
+echo -e "${RED}Sorting the results again for $domain${NC}";
+echo -e "Total Subdomains: ${YELLOW}$(cat resolved.txt | anew raw.txt 1>/dev/null; wc -l raw.txt | cut -d' ' -f1)${NC}";
+echo -e "Resolved Subdomains: ${YELLOW}$(wc -l resolved.txt | cut -d' ' -f1)${NC}";
+
+# Extracting Ips:
+echo "";
+echo -e "${RED}Extracting Ips${NC}"
+echo -ne "${YELLOW}Dig: ";
+for host in $(cat resolved.txt); do echo $host:$(dig +short A $host | grep -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1) | anew host-ip.txt 1>/dev/null; done;
+for host in $(cat resolved.txt); do echo $host:$(dig +short A $host | grep -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1) | anew host-ip.txt 1>/dev/null; done;
+for host in $(cat resolved.txt); do echo $host:$(dig +short A $host | grep -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1) | anew host-ip.txt 1>/dev/null; done;
+cat host-ip.txt | cut -d":" -f2 | sort -u > ips.txt;
+echo -e "Unique Ips: ${YELLOW}$(wc -l ips.txt | cut -d' ' -f1)${NC}";
+
+# Ports Scanning
+echo "";
+echo -e "${RED}Ports Scanning (Top 1000 Ports)${NC}"
+echo -ne "${YELLOW}Naabu: ";
+naabu -l resolved.txt -retries 1 -warm-up-time 0 -rate 1000 -top-ports 1000| anew ports.txt 1>/dev/null 2>/dev/null;
+echo -e "Done ";
+
+# Use nmap or masscan on ur own machine, save the output as an xml file and throw it to brutespray.
+
+# Probing
+echo "";
+echo -e "${RED}Probing the open ports${NC}"
+echo -ne "${YELLOW}httpx: ";
+cat resolved.txt | httpx -retries 5 -maxhr 999999 | anew alive.txt 1>/dev/null 2>/dev/null;
+cat ports.txt | grep -vE ":80$" | grep -vE ":443" | httpx -retries 5 -maxhr 99999 | anew alive.txt 1>/dev/null 2>/dev/null;
+echo -e "Webservers found: ${YELLOW}$(wc -l alive.txt | cut -d' ' -f1)${NC}";
+
+# Subdomain Takeover
+echo "";
+echo -e "${RED}Scanning for Subdomain Takeover${NC}"
+
+# subjack
+echo -ne "${YELLOW}subjack: ";
+subjack -w resolved.txt -t 30 -ssl -o subjack.txt 2>/dev/null 1>/dev/null;
+echo -e "${YELLOW}$(wc -l subjack.txt | cut -d' ' -f1) possible takeover!${NC}";
+
+# subover
+echo -ne "${YELLOW}SubOver: ";
+SubOver -l resolved.txt -t 20 -https -timeout 20 | anew subover1.txt 2>/dev/null 1>/dev/null;
+cat subover1.txt | grep 'Possible' | anew subover.txt 1>/dev/null 2>/dev/null;
+echo -e "${YELLOW}$(wc -l subover.txt | cut -d' ' -f1) possible takeover!${NC}";
+
+# subzy
+echo -ne "${YELLOW}subzy: ";
+subzy -targets resolved.txt -timeout 20 -https -hide_fails | anew subzy1.txt 2>/dev/null 1>/dev/null;
+cat subzy.txt | grep -i 'vulnerable' | anew subzy.txt 1>/dev/null 2>/dev/null;
+echo -e "${YELLOW}$(wc -l subzy.txt | cut -d' ' -f1) possible takeover!${NC}";
+
+# Favicon trick
+echo "";
+echo -ne "${YELLOW}extracting hashes: ";
+cat httpx.txt | python3 tools/FavFreak/favfreak.py -o .favreak;
+ls .favfreak/ | while read hash; do echo $hash | sed 's/\.txt//g' | anew hashes1.txt 1>/dev/null 2>/dev/null; done
+cat hashes1.txt | grep -vE '^0$' > hashes.txt
+echo -e "${YELLOW}$(wc -l hashes.txt | cut -d' ' -f1) unique hashes!${NC}";
+cd .favfreak/; cat -- * | sort -u | anew ../favicon-links.txt 1>/dev/null 2>/dev/null;
+echo -ne "${YELLOW}Reverse favicon hash lookup: ";
+echo -e "You have to do manually ";
+
+# Recursive Subdomain Enumeration
+# Subdomain Takeover
+echo "";
+echo -e "${RED}Recursive Subdomain Enumeration${NC}"
+cat resolved.txt | precursive > precursive.txt
+echo -e "${YELLOW}recursive.txt was generated, you can manually perfom bruteforce on them";

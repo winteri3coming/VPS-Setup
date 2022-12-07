@@ -1,0 +1,5 @@
+# Takes a list of subdomains and returns a list of subdomains to bruteforce based on the first level subdomains with the most iterations.
+
+#!/bin/bash
+#1st level subdomains
+cat - | sort -u | rev | cut -d'.' -f 3,2,1 | rev | sort | uniq -c | sort -n | egrep -v '(1|2)' | awk '{print $2}'
