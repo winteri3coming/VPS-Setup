@@ -84,11 +84,11 @@ mv googledorks.txt .$domain/;
 
 # github
 echo -ne "${YELLOW}github: "
-github-subdomains -t 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 -d $domain -raw 2>/dev/null>github1.txt;sleep 6;
-github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
-github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
-github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
-github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
+github-subdomains -t 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 -d $domain -raw 2>/dev/null>github1.txt;sleep 6;
+github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
+github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
+github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
+github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
 cat github1.txt | sort -u > github.txt; rm github1.txt;
 echo -e "${YELLOW}$(wc -l github.txt | cut -d' ' -f1) subdomains${NC}";
 mv github.txt .$domain/;
@@ -101,7 +101,7 @@ mv waybackurls.txt .$domain/;
 
 # gau
 echo -ne "${YELLOW}gau: "
-gau $domain -threads 6 | unfurl format %d | sort -u > gau.txt
+gau $domain --threads 6 | unfurl format %d | sort -u > gau.txt
 echo -e "${YELLOW}$(wc -l gau.txt | cut -d' ' -f1) subdomains${NC}";
 mv gau.txt .$domain/;
 
