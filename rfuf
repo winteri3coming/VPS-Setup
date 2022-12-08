@@ -57,7 +57,7 @@ mv subfinder.txt .$domain/;
 
 # JLDC
 echo -ne "${YELLOW}jldc: "
-jldc $domain 2>/dev/null >jldc.txt
+jldc $domain | anew jldc.txt 1>/dev/null 2>/dev/null;
 echo -e "${YELLOW}$(wc -l jldc.txt | cut -d' ' -f1) subdomains${NC}";
 mv jldc.txt .$domain/;
 
@@ -75,21 +75,20 @@ mv findomain.txt .$domain/;
 
 # google dorks
 echo -ne "${YELLOW}google dorks: "
-sd-goo $domain 2>/dev/null >googledorks1.txt;sleep 5
-sd-goo $domain 2>/dev/null >>googledorks1.txt;sleep 5;
-sd-goo $domain 2>/dev/null >>googledorks1.txt
+sd-goo $domain | anew googledorks1.txt 1>/dev/null 2>/dev/null;sleep 5;
+sd-goo $domain | anew googledorks1.txt 1>/dev/null 2>/dev/null;sleep 5;
+sd-goo $domain | anew googledorks1.txt 1>/dev/null 2>/dev/null;
 cat googledorks1.txt | sort -u > googledorks.txt; rm googledorks1.txt;
 echo -e "${YELLOW}$(wc -l googledorks.txt | cut -d' ' -f1) subdomains${NC}";
 mv googledorks.txt .$domain/;
 
 # github
 echo -ne "${YELLOW}github: "
-export GITHUB_TOKEN=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,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,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;
-github-subdomains -d $domain -raw 2>/dev/null>github1.txt;sleep 6;
-github-subdomains -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
-github-subdomains -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
-github-subdomains -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
-github-subdomains -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
+github-subdomains -t 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 -d $domain -raw 2>/dev/null>github1.txt;sleep 6;
+github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
+github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
+github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
+github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 6;
 cat github1.txt | sort -u > github.txt; rm github1.txt;
 echo -e "${YELLOW}$(wc -l github.txt | cut -d' ' -f1) subdomains${NC}";
 mv github.txt .$domain/;
@@ -102,7 +101,7 @@ mv waybackurls.txt .$domain/;
 
 # gau
 echo -ne "${YELLOW}gau: "
-gau $domain | unfurl format %d | sort -u > gau.txt
+gau $domain -threads 6 | unfurl format %d | sort -u > gau.txt
 echo -e "${YELLOW}$(wc -l gau.txt | cut -d' ' -f1) subdomains${NC}";
 mv gau.txt .$domain/;
 
