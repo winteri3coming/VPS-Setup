@@ -152,9 +152,8 @@ mv resolved.txt .$domain/;
 echo "";
 echo -e "${RED}Permutations/Alternations${NC}"
 echo -ne "${YELLOW}altdns: ";
-python3 -m altdns -i raw.txt -o altdns2.txt -w tools/words.txt -r -s altdns1.txt -t 1000 1>/dev/null 2>/dev/null;
-cat altdns1.txt | cut -d":" -f1 > altdns.txt; rm altdns1.txt;
-cat altdns.txt | cut -d":" -f1 | anew resolved.txt 1>/dev/null;
+python3 -m altdns -i raw.txt -o altdns1.txt -w tools/words.txt 1>/dev/null 2>/dev/null;
+cat altdns1.txt | puredns resolve --resolvers tools/resolvers.txt -q -w altdns.txt 1>/dev/null 2>/dev/null;
 echo -e "${YELLOW}$(wc -l altdns.txt | cut -d' ' -f1) subdomains${NC}";
 mv altdns.txt .$domain; 
 
