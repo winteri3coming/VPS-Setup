@@ -27,7 +27,7 @@ export PATH=$PATH:$(pwd)/tools
 echo -n "Installing go";
 wget -q https://go.dev/dl/go1.19.3.linux-amd64.tar.gz; tar -xzf go1.19.3.linux-amd64.tar.gz;
 rm go1.19.3.linux-amd64.tar.gz;
-mv go/ tools/; export PATH=$PATH:$(pwd)/tools/go/bin/
+mv go/ tools/; export PATH=$PATH:$(pwd)/tools/go/bin/;
 echo -e "\t \tDone ✔";
 
 # Nuclei
@@ -52,7 +52,7 @@ mv naabu tools/;
 echo -e "\t \tDone ✔";
 
 # Findomain
-echo -n "Installing findomain";
+echo -n "Installing Findomain";
 findomain="https://github.com/Findomain/Findomain/releases/download/8.2.1/findomain-linux-i386.zip";
 wget -q $findomain; unzip -q -o findomain-linux-i386.zip; rm findomain-linux-i386.zip;
 mv findomain tools/;
@@ -210,19 +210,20 @@ wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/dnsgen;
 mv dnsgen tools/;
 echo -e "\t \tDone ✔";
 
-#gotator
+export PATH=$PATH:$(pwd)/tools/go/bin/;
+
+# Gotator
 echo -n "Installing gotator";
 go install github.com/Josue87/gotator@latest 2>/dev/null;
 mv ~/go/bin/gotator tools/;
 echo -e "\t \tDone ✔"
 
-# subjack
+# Subjack
 echo -n "Installing subjack";
 go install github.com/haccer/subjack@latest 2>/dev/null;
 mv ~/go/bin/subjack tools/;
 wget -q https://raw.githubusercontent.com/haccer/subjack/master/fingerprints.json;
-mkdir -p tools/subjack/;
-mv fingerprints.json tools/subjack/;
+mv fingerprints.json tools/;
 echo -e "\t \tDone ✔";
 
 # SubOver
@@ -233,20 +234,20 @@ mv providers.json tools/;
 mv ~/go/bin/SubOver tools/;
 echo -e "\t \tDone ✔";
 
-# subzy
+# Subzy
 echo -n "Installing subzy";
 go install github.com/lukasikic/subzy@latest 2>/dev/null;
 mv ~/go/bin/subzy tools/;
 echo -e "\t \tDone ✔";
 
-# favicon
+# Favicon
 echo -n "Installing favicon-hashtrick";
 git clone -q https://github.com/gwen001/favicon-hashtrick;
 cd favicon-hashtrick/; pip3 -q install -r requirements.txt;
 cd ..; mv favicon-hashtrick tools/;
 echo -e "\t \tDone ✔";
 
-# favfreak
+# Favfreak
 echo -n "Installing favfreak";
 git clone -q https://github.com/devanshbatham/FavFreak;
 mv FavFreak tools/;
@@ -255,7 +256,7 @@ pip3 -q install -r requirements.txt;
 cd ../../;
 echo -e "\t \tDone ✔";
 
-# mytools
+# Mytools
 echo -n "Installing sectrails";
 wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/sectrails; mv sectrails tools/;
 echo -e "\t \tDone ✔";
@@ -353,6 +354,9 @@ wget -q "https://wordlists-cdn.assetnote.io/data/manual/best-dns-wordlist.txt";
 mv best-dns-wordlist.txt wordlists/;
 wget -q "https://raw.githubusercontent.com/infosec-au/altdns/master/words.txt";
 mv words.txt tools/;
+echo -e "\t \tDone ✔";
+wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/config.ini";
+mv config.ini tools/;
 echo -e "\t \tDone ✔";
 
 # Resolvers
