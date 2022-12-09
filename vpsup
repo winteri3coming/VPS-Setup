@@ -221,11 +221,11 @@ echo -n "Installing subjack";
 go install github.com/haccer/subjack@latest 2>/dev/null;
 mv ~/go/bin/subjack tools/;
 wget -q https://raw.githubusercontent.com/haccer/subjack/master/fingerprints.json;
-mkdir -p ~/go/src/github.com/haccer/subjack;
-mv fingerprints.json ~/go/src/github.com/haccer/subjack/;
+mkdir -p tools/subjack/;
+mv fingerprints.json tools/subjack/;
 echo -e "\t \tDone ✔";
 
-# subjack
+# SubOver
 echo -n "Installing subover";
 go install github.com/Ice3man543/SubOver@latest 2>/dev/null;
 wget -q https://raw.githubusercontent.com/Ice3man543/SubOver/master/providers.json;
