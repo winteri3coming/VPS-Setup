@@ -367,4 +367,4 @@ rm LICENSE*;
 rm *.md;
 mkdir programs;
 cd tools/; chmod +x *;
-echo -e "${YELLOW}Finished! Your VPS ready${NC}";g
+echo -e "${YELLOW}Finished! Your VPS ready${NC}";
