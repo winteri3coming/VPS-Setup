@@ -234,7 +234,7 @@ echo -e "${RED}Scanning for Subdomain Takeover${NC}"
 
 # subjack
 echo -ne "Subjack: "; touch subjack.txt;
-subjack -w resolved.txt -t 30 -ssl -o subjack.txt -c tools/subjack/fingerprints.json 2>/dev/null 1>/dev/null;
+subjack -w resolved.txt -t 30 -ssl -o subjack.txt -c tools/fingerprints.json 2>/dev/null 1>/dev/null;
 echo -e "${YELLOW}$(wc -l subjack.txt | cut -d' ' -f1) possible takeover!${NC}";
 mv subjack.txt takeovers.txt;
 
