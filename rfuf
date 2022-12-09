@@ -45,7 +45,7 @@ mv rapidns.txt .$domain/;
 
 # certsh
 echo -ne "Cert.sh: "
-crtsh $domain 2>/dev/null >c ertsh.txt;
+crtsh $domain 2>/dev/null >certsh.txt;
 echo -e "${YELLOW}$(wc -l certsh.txt | cut -d' ' -f1) subdomains${NC}";
 mv certsh.txt .$domain/;
 
@@ -107,8 +107,8 @@ mv gau.txt .$domain/;
 
 # amass
 echo -ne "Amass: "
-amass enum -passive -d $domain 2>/dev/null >amass1.txt;
-amass enum -active -d $domain 2>/dev/null >>amass1.txt;
+amass enum -passive -d $domain -config tools/config.ini 2>/dev/null >amass1.txt;
+amass enum -active -d $domain -config tools/config.ini 2>/dev/null >>amass1.txt;
 cat amass1.txt | sort -u > amass.txt;rm amass1.txt;
 echo -e "${YELLOW}$(wc -l amass.txt | cut -d' ' -f1) subdomains${NC}";
 mv amass.txt .$domain/;
@@ -126,7 +126,7 @@ echo -e "${RED}Bruteforcing Subdomains for $domain${NC}";
 
 # amass
 echo -ne "Amass: ";
-amass enum -active -brute -d $domain 2>/dev/null > amass-bruteforce.txt;
+amass enum -active -brute -d $domain -config tools/config.ini 2>/dev/null > amass-bruteforce.txt;
 echo -e "${YELLOW}$(wc -l amass-bruteforce.txt | cut -d' ' -f1) subdomains${NC}";
 mv amass-bruteforce.txt .$domain/;
 
@@ -266,7 +266,7 @@ echo "";
 echo -ne "${RED}Extracting hashes: ${NC}";
 
 cat alive.txt | python3 tools/FavFreak/favfreak.py -o .favreak 1>/dev/null 2>/dev/null;
-ls .favfreak/ 1>/dev/null 2>/dev/null | while read hash; do echo $hash | sed 's/\.txt//g' | anew hashes1.txt 1>/dev/null 2>/dev/null; done
+ls .favfreak/ | while read hash; do echo $hash | sed 's/\.txt//g' | anew hashes1.txt 1>/dev/null 2>/dev/null; done
 cat hashes1.txt | grep -vE '^0$' > hashes.txt;
 echo -e "${YELLOW}$(wc -l hashes.txt | cut -d' ' -f1) Unique Hashes!${NC}";
 cd .favfreak/; cat -- * | sort -u | anew ../favicon-links.txt 1>/dev/null 2>/dev/null;
