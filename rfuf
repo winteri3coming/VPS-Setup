@@ -35,42 +35,51 @@ echo -e "${RED}Finding Subdomains for $domain${NC}";
 echo -ne "Security Trails: "
 sectrails $domain 2>/dev/null > sectrails.txt;
 echo -e "${YELLOW}$(wc -l sectrails.txt | cut -d' ' -f1) subdomains${NC}";
+cp sectrails.txt all.txt;
 mv sectrails.txt .$domain/;
 
 # rapidns
 echo -ne "Rapid DNS: "
 rapidns $domain 2>/dev/null > rapidns.txt;
-echo -e "${YELLOW}$(wc -l rapidns.txt | cut -d' ' -f1) subdomains${NC}";
+echo -e "${YELLOW}$(wc -l rapidns.txt | cut -d' ' -f1) subdomains (${RED}$(cat rapidns.txt | anew all.txt | wc -l) new)${NC}";
 mv rapidns.txt .$domain/;
 
 # certsh
 echo -ne "Cert.sh: "
-crtsh $domain 2>/dev/null >certsh.txt;
-echo -e "${YELLOW}$(wc -l certsh.txt | cut -d' ' -f1) subdomains${NC}";
+crtsh $domain 2>/dev/null > certsh1.txt;
+cat certsh1.txt | sed 's/\*\.//g' | tr A-Z a-z | grep -vE '^\.' > certsh.txt; rm certsh1.txt;
+echo -e "${YELLOW}$(wc -l certsh.txt | cut -d' ' -f1) subdomains (${RED}$(cat certsh .txt | anew all.txt | wc -l) new)${NC}";
 mv certsh.txt .$domain/;
+
+# ctfr
+echo -ne "ctfr: ";
+python3 tools/ctfr/ctfr.py -d $domain.com | anew ctfr1.txt 1>/dev/null 2>/dev/null;
+cat ctfr1.txt | sed 's/\[-\]  //g' | sed 's/\*\.//g' | grep -vE '!' | tr A-Z a-z > ctfr.txt;
+echo -e "${YELLOW}$(wc -l ctfr.txt | cut -d' ' -f1) subdomains (${RED}$(cat ctfr.txt | anew all.txt | wc -l) new)${NC}";
+rm ctfr1.txt; mv ctfr.txt .$domain/;
 
 # subfinder
 echo -ne "Subfinder: "
 subfinder -d $domain -silent 2>/dev/null > subfinder.txt;
-echo -e "${YELLOW}$(wc -l subfinder.txt | cut -d' ' -f1) subdomains${NC}";
+echo -e "${YELLOW}$(wc -l subfinder.txt | cut -d' ' -f1) subdomains (${RED}$(cat subfinder.txt | anew all.txt | wc -l) new)${NC}";
 mv subfinder.txt .$domain/;
 
 # JLDC
 echo -ne "JLDC: "
 jldc $domain | anew jldc.txt 1>/dev/null 2>/dev/null;
-echo -e "${YELLOW}$(wc -l jldc.txt | cut -d' ' -f1) subdomains${NC}";
+echo -e "${YELLOW}$(wc -l jldc.txt | cut -d' ' -f1) subdomains (${RED}$(cat jldc.txt | anew all.txt | wc -l) new)${NC}";
 mv jldc.txt .$domain/;
 
 # assetfinder
 echo -ne "Assetfinder: "
 assetfinder --subs-only $domain 2>/dev/null > assetfinder.txt;
-echo -e "${YELLOW}$(wc -l assetfinder.txt | cut -d' ' -f1) subdomains${NC}";
+echo -e "${YELLOW}$(wc -l assetfinder.txt | cut -d' ' -f1) subdomains (${RED}$(cat assetfinder.txt | anew all.txt | wc -l) new)${NC}";
 mv assetfinder.txt .$domain/;
 
 # findomain
 echo -ne "Findomain: "
 findomain -t $domain -u findomain.txt 1>/dev/null 2>/dev/null;
-echo -e "${YELLOW}$(wc -l findomain.txt | cut -d' ' -f1) subdomains${NC}";
+echo -e "${YELLOW}$(wc -l findomain.txt | cut -d' ' -f1) subdomains (${RED}$(cat findomain.txt | anew all.txt | wc -l) new)${NC}";
 mv findomain.txt .$domain/;
 
 # google dorks
@@ -79,7 +88,7 @@ sd-goo $domain | anew googledorks1.txt 1>/dev/null 2>/dev/null;sleep 5;
 sd-goo $domain | anew googledorks1.txt 1>/dev/null 2>/dev/null;sleep 5;
 sd-goo $domain | anew googledorks1.txt 1>/dev/null 2>/dev/null;
 cat googledorks1.txt | sort -u > googledorks.txt; rm googledorks1.txt;
-echo -e "${YELLOW}$(wc -l googledorks.txt | cut -d' ' -f1) subdomains${NC}";
+echo -e "${YELLOW}$(wc -l googledorks.txt | cut -d' ' -f1) subdomains (${RED}$(cat googledorks.txt | anew all.txt | wc -l) new)${NC}";
 mv googledorks.txt .$domain/;
 
 # github
@@ -90,35 +99,36 @@ github-subdomains -t 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 -d $domain -raw 2>
 github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 10;
 github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;
 cat github1.txt | sort -u > github.txt; rm github1.txt;
-echo -e "${YELLOW}$(wc -l github.txt | cut -d' ' -f1) subdomains${NC}";
+echo -e "${YELLOW}$(wc -l github.txt | cut -d' ' -f1) subdomains (${RED}$(cat github.txt | anew all.txt | wc -l) new)${NC}";
 mv github.txt .$domain/;
 
 # waybackurls
 echo -ne "Waybackurls: "
 waybackurls $domain | unfurl format %d | sort -u > waybackurls.txt;
-echo -e "${YELLOW}$(wc -l waybackurls.txt | cut -d' ' -f1) subdomains${NC}";
+echo -e "${YELLOW}$(wc -l waybackurls.txt | cut -d' ' -f1) subdomains (${RED}$(cat waybackurls.txt | anew all.txt | wc -l) new)${NC}";
 mv waybackurls.txt .$domain/;
 
 # gau
 echo -ne "Gau: "
 gau $domain --threads 10 | unfurl format %d | sort -u > gau.txt;
-echo -e "${YELLOW}$(wc -l gau.txt | cut -d' ' -f1) subdomains${NC}";
+echo -e "${YELLOW}$(wc -l gau.txt | cut -d' ' -f1) subdomains (${RED}$(cat gau.txt | anew all.txt | wc -l) new)${NC}";
 mv gau.txt .$domain/;
 
 # amass
 echo -ne "Amass: "
-amass enum -passive -d $domain -config tools/config.ini 2>/dev/null >amass1.txt;
-amass enum -active -d $domain -config tools/config.ini 2>/dev/null >>amass1.txt;
+mv tools/config.ini ~/.config/amass/;
+amass enum -passive -d $domain 2>/dev/null >amass1.txt;
+amass enum -active -d $domain 2>/dev/null >>amass1.txt;
 cat amass1.txt | sort -u > amass.txt;rm amass1.txt;
-echo -e "${YELLOW}$(wc -l amass.txt | cut -d' ' -f1) subdomains${NC}";
+echo -e "${YELLOW}$(wc -l amass.txt | cut -d' ' -f1) subdomains (${RED}$(cat amass.txt | anew all.txt | wc -l) new)${NC}";
 mv amass.txt .$domain/;
 
 # firece
 echo -ne "Fierce: "
 python3 tools/fierce/fierce/fierce.py --domain $domain > fierce2.txt;
 cat fierce2.txt | grep Found | awk '{print $2}' | sed 's/\.$//g' > fierce.txt;
-echo -e "${YELLOW}$(wc -l fierce.txt | cut -d' ' -f1) subdomains${NC}"; rm fierce2.txt;
-mv fierce.txt .$domain/;
+echo -e "${YELLOW}$(wc -l fierce.txt | cut -d' ' -f1) subdomains (${RED}$(cat fierce.txt | anew all.txt | wc -l) new)${NC}";
+rm fierce2.txt; mv fierce.txt .$domain/;
 
 # BRUTEFORCING
 echo "";
@@ -127,20 +137,20 @@ echo -e "${RED}Bruteforcing Subdomains for $domain${NC}";
 # amass
 echo -ne "Amass: ";
 amass enum -active -brute -d $domain -config tools/config.ini 2>/dev/null > amass-bruteforce.txt;
-echo -e "${YELLOW}$(wc -l amass-bruteforce.txt | cut -d' ' -f1) subdomains${NC}";
+echo -e "${YELLOW}$(wc -l amass-bruteforce.txt | cut -d' ' -f1) subdomains (${RED}$(cat amass-bruteforce.txt | anew all.txt | wc -l) new)${NC}";
 mv amass-bruteforce.txt .$domain/;
 
 # puredns
 echo -ne "Puredns: ";
 puredns -q bruteforce wordlists/best-dns-wordlist.txt $domain --resolvers tools/resolvers.txt -w puredns.txt 1>/dev/null 2>/dev/null;
-echo -e "${YELLOW}$(wc -l puredns.txt | cut -d' ' -f1) subdomains${NC}";
+echo -e "${YELLOW}$(wc -l puredns.txt | cut -d' ' -f1) subdomains (${RED}$(cat puredns.txt | anew all.txt | wc -l) new)${NC}";
 mv puredns.txt .$domain/;
 
 # Sorting the results
 echo "";
 echo -e "${RED}Sorting the results for $domain${NC}";
-cat .$domain/* | grep -v '*' | sort -u>raw.txt;
-echo -e "Total Unique Found: ${YELLOW}$(wc -l raw.txt | cut -d' ' -f1) subdomains${NC}";
+cat .$domain/* | grep -v '*' | sort -u > raw.txt; cat raw.txt | anew all.txt 1>/dev/null 2>/dev/null;
+echo -e "Total Unique Found: ${YELLOW}$(wc -l all.txt | cut -d' ' -f1) subdomains${NC}";
 
 # Resolving Subdomains
 echo "";
