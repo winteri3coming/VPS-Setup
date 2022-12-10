@@ -72,6 +72,14 @@ wget -q $interactsh; unzip -q -o interactsh-client_1.0.7_Linux_x86_64.zip; rm in
 mv interactsh* tools/;
 echo -e "\t \tDone ✔";
 
+# ctfr
+echo -n "Installing ctfr"
+ctfr="https://github.com/UnaPibaGeek/ctfr";
+git clone -q $ctfr;
+pip3 install -r ctfr/requirements.txt -q;
+mv ctfr/ tools/;
+echo -e "\t \tDone ✔";
+
 # tlsx
 echo -n "Installing tlsx";
 tlsx="https://github.com/projectdiscovery/tlsx/releases/download/v0.0.9/tlsx_0.0.9_linux_amd64.zip";
