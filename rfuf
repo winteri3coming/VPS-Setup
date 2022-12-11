@@ -166,11 +166,10 @@ rm fierce2.txt; mv fierce.txt .$domain/;
 
 # dnsenum
 echo -ne "${BLUE}Zone Transfer: "
-perl tools/dnsenum/dnsenum.pl -w $domain > dnsenum1.txt;
-cat dnsenum1.txt | grep -Pzoi '.*Trying zone transfer for(.*\n)*' | sort -u | cut -d" " -f1 | sed 's/\.$//g' | tr A-Z a-z | sort -u | grep -a '\.' | sort > dnsenum.txt;
-echo -e "${YELLOW}$(wc -l dnsenum.txt | cut -d' ' -f1) subdomains (${RED}$(cat dnsenum.txt | anew all.txt | anew new-dnsenum.txt | wc -l) new)${NC}";
-cat new-dnsenum.txt; mv new-dnsenum.txt .$domain/;
-rm dnsenum1.txt; mv dnsenum.txt .$domain/;
+echo $domain | dnsx -silent -axfr -json | jq '.axfr.chain[].all[]' -r | awk '{print $1}'| anew | sed 's/\.$//g' > dnsx.txt;
+echo -e "${YELLOW}$(wc -l dnsx.txt | cut -d' ' -f1) subdomains (${RED}$(cat dnsx.txt | anew all.txt | anew new-dnsx.txt | wc -l) new)${NC}";
+cat new-dnsx.txt; mv new-dnsx.txt .$domain/;
+mv dnsx.txt .$domain/;
 
 # BRUTEFORCING
 echo "";
