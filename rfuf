@@ -112,7 +112,7 @@ echo "";
 
 # ctfr
 echo -ne "${BLUE}ctfr: ";
-python3 tools/ctfr/ctfr.py -d $domain.com | anew ctfr1.txt 1>/dev/null 2>/dev/null;
+python3 tools/ctfr/ctfr.py -d $domain.com -o ctfr1.txt 1>/dev/null 2>/dev/null;
 cat ctfr1.txt | sed 's/\[-\]  //g' | sed 's/\*\.//g' | grep -vE '!' | tr A-Z a-z > ctfr.txt;
 echo -e "${YELLOW}$(wc -l ctfr.txt | cut -d' ' -f1) subdomains (${RED}$(cat ctfr.txt | anew all.txt | anew new-ctfr.txt| wc -l) new)${NC}";
 cat new-ctfr.txt; mv new-ctfr.txt .$domain/;
@@ -125,6 +125,7 @@ echo -e "${YELLOW}$(wc -l jldc.txt | cut -d' ' -f1) subdomains (${RED}$(cat jldc
 cat new-jldc.txt;
 mv new-jldc.txt .$domain/;
 mv jldc.txt .$domain/;
+echo "";
 
 # github
 echo -ne "${BLUE}Github: "
@@ -137,20 +138,23 @@ cat github1.txt | sort -u > github.txt; rm github1.txt;
 echo -e "${YELLOW}$(wc -l github.txt | cut -d' ' -f1) subdomains (${RED}$(cat github.txt | anew all.txt | anew new-github.txt| wc -l) new)${NC}";
 cat new-github.txt; mv new-github.txt .$domain/; 
 mv github.txt .$domain/;
+echo "";
 
 # waybackurls
 echo -ne "${BLUE}Waybackurls: "
-waybackurls $domain | unfurl format %d | sort -u > waybackurls.txt;
+waybackurls $domain | unfurl format %d | sort -u | grep -vE '\.$' > waybackurls.txt;
 echo -e "${YELLOW}$(wc -l waybackurls.txt | cut -d' ' -f1) subdomains (${RED}$(cat waybackurls.txt | anew all.txt | anew new-waybackurls.txt | wc -l) new)${NC}";
 cat new-waybackurls.txt; mv new-waybackurls.txt .$domain/;
 mv waybackurls.txt .$domain/;
+echo "";
 
 # gau
 echo -ne "${BLUE}Gau: "
-gau $domain --threads 10 | unfurl format %d | sort -u > gau.txt;
+gau $domain --threads 10 --blacklist ttf,woff,svg,png| unfurl format %d | grep -vE '\.$' | sort -u > gau.txt;
 echo -e "${YELLOW}$(wc -l gau.txt | cut -d' ' -f1) subdomains (${RED}$(cat gau.txt | anew all.txt | anew new-gau.txt | wc -l) new)${NC}";
 cat new-gau.txt; mv new-gau.txt .$domain/;
 mv gau.txt .$domain/;
+echo "";
 
 echo "";
 echo -e "${GREEN}🟢 ➡ Active Subdomains Gathering for $domain ⬅ 🟢${NC}";
@@ -178,10 +182,11 @@ echo "";
 
 # amass
 echo -ne "${BLUE}Amass: ";
-amass enum -active -brute -d $domain 2>/dev/null > amass-bruteforce.txt;
+amass enum -active -brute -d $domain 2>/dev/null | grep -v 'No names were discovered' > amass-bruteforce.txt;
 echo -e "${YELLOW}$(wc -l amass-bruteforce.txt | cut -d' ' -f1) subdomains (${RED}$(cat amass-bruteforce.txt | anew all.txt | anew new-amass-bruteforce.txt | wc -l) new)${NC}";
 cat new-amass-bruteforce.txt; mv new-amass-bruteforce.txt .$domain/;
 mv amass-bruteforce.txt .$domain/;
+echo "";
 
 # puredns
 echo -ne "${BLUE}Puredns: ";
@@ -189,6 +194,7 @@ puredns -q bruteforce wordlists/best-dns-wordlist.txt $domain --resolvers tools/
 echo -e "${YELLOW}$(wc -l puredns.txt | cut -d' ' -f1) subdomains (${RED}$(cat puredns.txt | anew all.txt | anew new-puredns.txt | wc -l) new)${NC}";
 cat new-puredns.txt; mv new-puredns.txt .$domain/;
 mv puredns.txt .$domain/;
+echo "";
 
 ####################################################################################
 ####################################################################################
