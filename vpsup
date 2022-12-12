@@ -267,11 +267,12 @@ echo -e "\t \tDone ✔";
 
 # Interlace
 echo -n "Installing Interlace";
-git clone https://github.com/codingo/Interlace;
+git clone -q https://github.com/codingo/Interlace;
 cd Interlace/;
 pip3 -q install -r requirements.txt;
-python3 setup.py install;
-cd $workspace; mv Interlace/ tools/;
+python3 setup.py install --root /dev/shm/tools/ --prefix interlace-codingo 1>/dev/null 2>/dev/null;
+mv $workspace/tools/interlace-codingo/bin/interlace $workspace/tools/;
+rm -rf $workspace/Interlace;
 echo -e "\t \tDone ✔";
 
 # sanenum
@@ -318,8 +319,8 @@ echo -e "\t \tDone ✔";
 # massdns
 echo -n "Installing massdns";
 massdns="https://github.com/blechschmidt/massdns"; git clone -q $massdns;
-cd massdns; make -s; mv bin/massdns ../$workspace/tools/;
-cd ..; rm -rf massdns/;
+cd massdns; make -s; mv bin/massdns $workspace/tools/;
+cd $workspace; rm -rf massdns/;
 echo -e "\t \tDone ✔";
 
 # masscan
@@ -327,7 +328,7 @@ echo -n "Installing masscan";
 masscan="https://github.com/robertdavidgraham/masscan";
 git clone -q $masscan;
 cd masscan/; make -s;
-mv bin/masscan ../$workspace/tools/; cd ..; rm -rf masscan;
+mv bin/* $../tools/; cd ..; rm -rf masscan;
 echo -e "\t \tDone ✔";
 
 # gf-patterns
@@ -390,7 +391,6 @@ wget -q "https://wordlists-cdn.assetnote.io/data/manual/best-dns-wordlist.txt";
 mv best-dns-wordlist.txt wordlists/;
 wget -q "https://raw.githubusercontent.com/infosec-au/altdns/master/words.txt";
 mv words.txt $workspace/tools/;
-echo -e "\t \tDone ✔";
 wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/config.ini";
 mv config.ini $workspace/tools/;
 echo -e "\t \tDone ✔";
