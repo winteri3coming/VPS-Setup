@@ -91,7 +91,7 @@ echo -e "\t \tDone ✔";
 # katana
 echo -n "Installing katana";
 katana="https://github.com/projectdiscovery/katana/releases/download/v0.0.2/katana_0.0.2_linux_amd64.zip";
-wget -q $katana;unzip -q -o katana_0.0.2_linux_amd64.zip; rm katana_0.0.2_linux_amd64.zip;
+wget -q $katana; unzip -q -o katana_0.0.2_linux_amd64.zip; rm katana_0.0.2_linux_amd64.zip;
 mv katana $workspace/tools/;
 echo -e "\t \tDone ✔";
 
@@ -272,7 +272,7 @@ cd Interlace/;
 pip3 -q install -r requirements.txt;
 python3 setup.py install --root /dev/shm/tools/ --prefix interlace-codingo 1>/dev/null 2>/dev/null;
 mv $workspace/tools/interlace-codingo/bin/interlace $workspace/tools/;
-rm -rf $workspace/Interlace;
+rm -rf $workspace/Interlace; cd $workspace/;
 echo -e "\t \tDone ✔";
 
 # sanenum
@@ -295,40 +295,57 @@ echo -e "\t \tDone ✔";
 
 # Mytools
 echo -n "Installing sectrails";
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/sectrails; mv sectrails $workspace/tools/;
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/sectrails;
+mv sectrails $workspace/tools/;
 echo -e "\t \tDone ✔";
+
 echo -n "Installing rapidns";
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/rapidns; mv rapidns $workspace/tools/;
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/rapidns;
+mv rapidns $workspace/tools/;
 echo -e "\t \tDone ✔";
+
 echo -n "Installing crtsh";
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/crtsh; mv crtsh $workspace/tools/;
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/crtsh;
+mv crtsh $workspace/tools/;
 echo -e "\t \tDone ✔";
+
 echo -n "Installing precursive";
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/precursive; mv precursive $workspace/tools/;
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/precursive;
+mv precursive $workspace/tools/;
 echo -e "\t \tDone ✔";
+
 echo -n "Installing jldc";
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/jldc; mv jldc $workspace/tools/;
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/jldc;
+mv jldc $workspace/tools/;
 echo -e "\t \tDone ✔";
 
 # xsstrike
 echo -n "Installing XSStrike"
 xsstrike="https://github.com/s0md3v/XSStrike";
-git clone -q $xsstrike; mv XSStrike $workspace/tools/;
+git clone -q $xsstrike;
+mv XSStrike $workspace/tools/;
 echo -e "\t \tDone ✔";
 
 # massdns
 echo -n "Installing massdns";
-massdns="https://github.com/blechschmidt/massdns"; git clone -q $massdns;
-cd massdns; make -s; mv bin/massdns $workspace/tools/;
-cd $workspace; rm -rf massdns/;
+massdns="https://github.com/blechschmidt/massdns";
+git clone -q $massdns;
+cd massdns;
+make -s;
+mv bin/massdns $workspace/tools/;
+cd $workspace;
+rm -rf massdns/;
 echo -e "\t \tDone ✔";
 
 # masscan
 echo -n "Installing masscan";
 masscan="https://github.com/robertdavidgraham/masscan";
 git clone -q $masscan;
-cd masscan/; make -s;
-mv bin/* $../tools/; cd ..; rm -rf masscan;
+cd masscan/;
+make -s;
+mv bin/* $../tools/;
+cd ..;
+rm -rf masscan;
 echo -e "\t \tDone ✔";
 
 # gf-patterns
