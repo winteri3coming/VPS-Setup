@@ -112,7 +112,7 @@ echo "";
 
 # ctfr
 echo -ne "${BLUE}ctfr: ";
-python3 tools/ctfr/ctfr.py -d $domain.com -o ctfr1.txt 1>/dev/null 2>/dev/null;
+python3 $workspace/tools/ctfr/ctfr.py -d $domain.com -o ctfr1.txt 1>/dev/null 2>/dev/null;
 cat ctfr1.txt | sed 's/\[-\]  //g' | sed 's/\*\.//g' | grep -vE '!' | tr A-Z a-z > ctfr.txt;
 echo -e "${YELLOW}$(wc -l ctfr.txt | cut -d' ' -f1) subdomains (${RED}$(cat ctfr.txt | anew all.txt | anew new-ctfr.txt| wc -l) new)${NC}";
 cat new-ctfr.txt; mv new-ctfr.txt .$domain/;
@@ -211,7 +211,7 @@ echo -e "Total Unique Found: ${YELLOW}$(wc -l all.txt | cut -d' ' -f1) subdomain
 # Resolving Subdomains
 echo "";
 echo -e "${RED}${BOLD}🔴🔴 ${UNDERLINE}Resolving Subdomains${NC} 🔴🔴";
-cat raw.txt | puredns -q resolve --resolvers tools/resolvers.txt -w resolved.txt 1>/dev/null 2>/dev/null;
+cat raw.txt | puredns -q resolve --resolvers $workspace/tools/resolvers.txt -w resolved.txt 1>/dev/null 2>/dev/null;
 echo -e "${YELLOW}$(wc -l resolved.txt | cut -d' ' -f1) subdomains resolved!${NC}";
 
 ####################################################################################
@@ -220,7 +220,7 @@ echo -e "${YELLOW}$(wc -l resolved.txt | cut -d' ' -f1) subdomains resolved!${NC
 # San (Subject Alternate Name)
 echo -e "${RED}${BOLD}🔴🔴 ${UNDERLINE}Subject Alternate Name (SAN)${NC} 🔴🔴";
 echo -ne "${BLUE}SAN: "
-interlace -tL resolved.txt -threads 15 -c "sanenum -d _target_ 2>/dev/null" | anew san1.txt 1>/dev/null;;
+interlace -tL resolved.txt -threads 15 -c "sanenum -d _target_ 2>/dev/null" | anew san1.txt 1>/dev/null;
 cat san1.txt | grep -v THREAD | grep $domain | sed 's/^\*\.//g' | tr A-Z a-z | sort -u | anew san.txt 1>/dev/null;
 echo -e "${YELLOW}$(wc -l san.txt | cut -d' ' -f1) subdomains (${RED}$(cat san.txt | anew all.txt | anew new-san.txt | wc -l) new)${NC}";
 cat new-san.txt; mv new-san.txt san.txt .$domain/;
