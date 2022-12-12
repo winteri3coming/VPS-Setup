@@ -164,7 +164,7 @@ echo -e "${YELLOW}$(wc -l fierce.txt | cut -d' ' -f1) subdomains (${RED}$(cat fi
 cat new-fierce.txt; mv new-fierce.txt .$domain/;
 rm fierce2.txt; mv fierce.txt .$domain/;
 
-# dnsenum
+# dnsx
 echo -ne "${BLUE}Zone Transfer: "
 echo $domain | dnsx -silent -axfr -json | jq '.axfr.chain[].all[]' -r | awk '{print $1}'| anew | sed 's/\.$//g' > dnsx.txt;
 echo -e "${YELLOW}$(wc -l dnsx.txt | cut -d' ' -f1) subdomains (${RED}$(cat dnsx.txt | anew all.txt | anew new-dnsx.txt | wc -l) new)${NC}";
@@ -211,6 +211,17 @@ echo -e "${YELLOW}$(wc -l resolved.txt | cut -d' ' -f1) subdomains resolved!${NC
 ####################################################################################
 ####################################################################################
 
+# San (Subject Alternate Name)
+echo -e "${RED}${BOLD}🔴🔴 ${UNDERLINE}Subject Alternate Name (SAN)${NC} 🔴🔴";
+echo -ne "${BLUE}SAN: "
+interlace -tL resolved.txt -threads 15 -c "sanenum -d _target_ 2>/dev/null" | anew san1.txt 1>/dev/null;;
+cat san1.txt | grep -v THREAD | grep $domain | sed 's/^\*\.//g' | tr A-Z a-z | sort -u | anew san.txt 1>/dev/null;
+echo -e "${YELLOW}$(wc -l san.txt | cut -d' ' -f1) subdomains (${RED}$(cat san.txt | anew all.txt | anew new-san.txt | wc -l) new)${NC}";
+cat new-san.txt; mv new-san.txt san.txt .$domain/;
+rm san1.txt;
+
+####################################################################################
+####################################################################################
 # Alterations/Permutations
 echo "";
 echo -e "${RED}${BOLD}🔴🔴 ${UNDERLINE}Permutations/Alternations${NC} 🔴🔴"
@@ -289,6 +300,35 @@ echo -ne "${BLUE}httpx: ";
 cat resolved.txt | httpx -retries 5 -maxhr 999999 -silent | anew alive.txt 1>/dev/null 2>/dev/null;
 cat ports.txt | grep -vE ":80$" | grep -vE ":443" | httpx -retries 5 -maxhr 99999 -silent | anew alive.txt 1>/dev/null 2>/dev/null;
 echo -e "${YELLOW}$(wc -l alive.txt | cut -d' ' -f1) webservers found!${NC}";
+
+####################################################################################
+####################################################################################
+
+# csprecon
+echo "";
+echo -e "${RED}${BOLD}🔴🔴 ${UNDERLINE}Checking for CSP headers${NC} 🔴🔴"
+echo -ne "${BLUE}cspnum: "
+interlace -tL alive.txt -threads 6 -c "cspenum -h _target_ 2>/dev/null" | anew cspenum1.txt 1>/dev/null;
+root=$(echo $domain | unfurl format %r);
+cat cspenum1.txt | grep -v THREAD | grep $domain | anew cspenum.txt 1>/dev/null;
+echo -e "${YELLOW}$(wc -l cspenum.txt | cut -d' ' -f1) subdomains (${RED}$(cat cspenum.txt | anew all.txt | anew new-cspenum.txt | wc -l) new)${NC}";
+cat new-cspenum.txt; mv new-cspenum.txt cspenum.txt .$domain/;
+rm cspenum1.txt;
+
+####################################################################################
+####################################################################################
+
+# spf records
+echo "";
+echo -e "${RED}${BOLD}🔴🔴 ${UNDERLINE}Checking for SPF records${NC} 🔴🔴"
+echo -ne "${BLUE}SPF Records: "
+cat resolved.txt | dnsx -txt -resp-only -silent | grep spf | grep -o -P '(?<=:).*(?= )' | sed 's/include:\|ip4:/\n/g' | sed 's/ *$//' > spf-records1.txt;
+cat spf-records1.txt | grep -E '\d$' | sort -u | dnsx -ptr -silent -resp-only | anew spf-ptr.txt 1>/dev/null;
+cat spf-records1.txt | grep $domain | anew spf-records.txt 1>/dev/null;
+cat spf-ptr.txt | grep $root | anew spf-records.txt 1>/dev/null;
+echo -e "${YELLOW}$(wc -l spf-records1.txt | cut -d' ' -f1) records (${RED}$(cat spf-records.txt | anew all.txt | anew new-spf-records.txt | wc -l) new)${NC}";
+cat new-spf-records;
+mv new-spf-records.txt spf-records.txt spf-records1.txt .$domain/;
 
 ####################################################################################
 ####################################################################################
