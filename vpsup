@@ -265,6 +265,28 @@ pip3 -q install -r requirements.txt;
 cd ../../;
 echo -e "\t \tDone ✔";
 
+# Interlace
+echo -n "Installing Interlace";
+git clone https://github.com/codingo/Interlace;
+cd Interlace/;
+pip3 -q install -r requirements.txt;
+python3 setup.py install;
+cd $workspace; mv Interlace/ tools/;
+echo -e "\t \tDone ✔";
+
+# sanenum
+echo -n "Installing sanenum";
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/sanenum;
+mv sanenum $workspace/tools/;
+echo -e "\t \tDone ✔";
+
+# cspenum
+echo -n "Installing cspenum";
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/cspenum;
+mv cspenum $workspace/tools/;
+echo -e "\t \tDone ✔";
+
+
 # wafw00f
 echo -n "Installing wafw00f";
 pip3 -q install wafw00f;
