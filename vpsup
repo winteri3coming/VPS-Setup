@@ -75,10 +75,8 @@ echo -e "\t \tDone ✔";
 
 # ctfr
 echo -n "Installing ctfr"
-ctfr="https://github.com/UnaPibaGeek/ctfr";
-git clone -q $ctfr;
-pip3 install -r ctfr/requirements.txt -q;
-mv ctfr/ $workspace/tools/;
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/ctfr.py;
+mv ctfr.py $workspace/tools/;
 echo -e "\t \tDone ✔";
 
 # tlsx
@@ -265,6 +263,15 @@ pip3 -q install -r requirements.txt;
 cd ../../;
 echo -e "\t \tDone ✔";
 
+# dnsrecon
+echo -n "Installing dnsrecon";
+git clone -q https://github.com/darkoperator/dnsrecon;
+cd dnsrecon/;
+pip3 -q install -r requirements.txt 2>/dev/null;
+cd ..
+mv dnsrecon/ $workspace/tools/;
+echo -e "\t \tDone ✔";
+
 # Interlace
 echo -n "Installing Interlace";
 git clone -q https://github.com/codingo/Interlace;
@@ -376,6 +383,24 @@ echo -e "\t \tDone ✔";
 echo -n "Installing rfuf";
 wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/rfuf";
 mv rfuf $workspace/tools/;
+echo -e "\t \tDone ✔";
+
+# mapcidr
+echo -n "Installing mapcidr";
+go install github.com/projectdiscovery/mapcidr/cmd/mapcidr@latest 1>/dev/null 2>/dev/null;
+mv ~/go/bin/mapcidr $workspace.tools/;
+echo -e "\t \tDone ✔";
+
+# AnalysticsRelationships
+echo -n "Installing AnalyticsRelationships";
+git clone -q https://github.com/Josue87/AnalyticsRelationships;
+cd AnalyticsRelationships/Python;
+pip3 install -q requirements.txt;
+cd ..;
+go install 2>/dev/null 1>/dev/null;
+cd $wokspace;
+mv AnalyticsRelationships/ tools/;
+mv ~/go/bin/analyticsrelationships $workspace/tools/;
 echo -e "\t \tDone ✔";
 
 # subdomanizer
