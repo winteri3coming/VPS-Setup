@@ -112,7 +112,7 @@ echo "";
 
 # ctfr
 echo -ne "${BLUE}ctfr: ";
-python3 $workspace/tools/ctfr/ctfr.py -d $domain.com -o ctfr1.txt 1>/dev/null 2>/dev/null;
+python3 $workspace/tools/ctfr.py -d $domain.com | anew ctfr1.txt;
 cat ctfr1.txt | sed 's/\[-\]  //g' | sed 's/\*\.//g' | grep -vE '!' | tr A-Z a-z > ctfr.txt;
 echo -e "${YELLOW}$(wc -l ctfr.txt | cut -d' ' -f1) subdomains (${RED}$(cat ctfr.txt | anew all.txt | anew new-ctfr.txt| wc -l) new)${NC}";
 cat new-ctfr.txt; mv new-ctfr.txt .$domain/;
@@ -160,7 +160,7 @@ echo "";
 echo -e "${GREEN}🟢 ➡ Active Subdomains Gathering for $domain ⬅ 🟢${NC}";
 echo "";
 
-# firece
+# DNS enumeration and information gathering using fierce (not really passiv)
 echo -ne "${BLUE}Fierce: "
 python3 tools/fierce/fierce/fierce.py --domain $domain > fierce2.txt;
 cat fierce2.txt | grep Found | awk '{print $2}' | sed 's/\.$//g' > fierce.txt;
@@ -168,12 +168,27 @@ echo -e "${YELLOW}$(wc -l fierce.txt | cut -d' ' -f1) subdomains (${RED}$(cat fi
 cat new-fierce.txt; mv new-fierce.txt .$domain/;
 rm fierce2.txt; mv fierce.txt .$domain/;
 
-# dnsx
+# Zone Transfer
 echo -ne "${BLUE}Zone Transfer: "
 echo $domain | dnsx -silent -axfr -json | jq '.axfr.chain[].all[]' -r | awk '{print $1}'| anew | sed 's/\.$//g' > dnsx.txt;
 echo -e "${YELLOW}$(wc -l dnsx.txt | cut -d' ' -f1) subdomains (${RED}$(cat dnsx.txt | anew all.txt | anew new-dnsx.txt | wc -l) new)${NC}";
 cat new-dnsx.txt; mv new-dnsx.txt .$domain/;
 mv dnsx.txt .$domain/;
+
+# DNSSEC Zone Walking
+echo -ne "${BLUE}DNSSEC Zone Walking: "
+python3 tools/dnsrecon/dnsrecon.py -t zonewalk -d $domain | awk '/records/{f=0} f; /will be used/{f=1}' | awk '{print $3}' | sort -u > zonewalk.txt;
+echo -e "${YELLOW}$(wc -l zonewalk.txt) subdomains (${RED}$(cat zonewalk.txt | anew all.txt | anew new-zonewalk.txt | wc -l) new)${NC}";
+cat new-zonewalk.txt; mv new-zonewalk.txt .$domain/;
+mv zonewalk.txt .$domain/;
+
+# TLS Grabbing
+echo -ne "${BLUE}TLS Grabbing: \n";
+echo -e "${YELLOW} You have to do manually for now";
+
+# PTR Records (Reverse DNS)
+echo -ne "${BLUE}PTR Records: \n";
+echo -e "${YELLOW} You have to do manually for now";
 
 # BRUTEFORCING
 echo "";
@@ -335,6 +350,20 @@ cat spf-ptr.txt | grep $root | anew spf-records.txt 1>/dev/null;
 echo -e "${YELLOW}$(wc -l spf-records1.txt | cut -d' ' -f1) records (${RED}$(cat spf-records.txt | anew all.txt | anew new-spf-records.txt | wc -l) new)${NC}";
 cat new-spf-records;
 mv new-spf-records.txt spf-records.txt spf-records1.txt .$domain/;
+
+####################################################################################
+####################################################################################
+
+# AnalysticsRelationships
+echo "";
+echo -e "${RED}${BOLD}🔴🔴 ${UNDERLINE}Analystics Relationships${NC} 🔴🔴"
+echo -ne "${BLUE}Analystics Relationships: "
+cat alive.txt | analyticsrelationships | anew relationships1.txt 1>/dev/null 2>/dev/null;
+cat relationships1.txt | grep __ | cut -d " " -f 2 | sort -u | grep $root | anew relationships.txt 1>/dev/null 2>/dev/null;
+echo -e "${YELLOW}$(wc -l relationships.txt | cut -d' ' -f1) subdomains (${RED}$(cat relationships.txt | anew all.txt | anew new-relationships.txt | wc -l) new)${NC}";
+cat new-relationships.txt;
+mv new-relationships.txt relationships.txt .$domain/;
+rm relationships1.txt;
 
 ####################################################################################
 ####################################################################################
