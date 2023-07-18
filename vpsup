@@ -21,9 +21,6 @@ workspace=$(pwd);
 echo "";
 echo -e "${RED}1-Downloading Tools${NC}";
 echo "";
-mkdir tools 2>/dev/null;
-mkdir wordlists 2>/dev/null;
-export PATH=$PATH:$(pwd)/tools;
 
 # go
 echo -n "Installing go";
@@ -37,17 +34,17 @@ echo -e "\t \tDone ✔";
 
 # Nuclei
 echo -n "Installing Nuclei";
-go install github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
+go install github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # Subfinder
 echo -n "Installing Subfinder";
-go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # Naabu
 echo -n "Installing naabu";
-go install -v github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
+go install -v github.com/projectdiscovery/naabu/v2/cmd/naabu@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # Findomain
@@ -61,7 +58,7 @@ echo -e "\t \tDone ✔";
 
 # Httpx
 echo -n "Installing httpx";
-go install github.com/projectdiscovery/httpx/cmd/httpx@latest
+go install github.com/projectdiscovery/httpx/cmd/httpx@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # Interactsh
@@ -137,22 +134,22 @@ echo "\t \tDone ";
 
 # tlsx
 echo -n "Installing tlsx";
-go install github.com/projectdiscovery/tlsx/cmd/tlsx@latest
+go install github.com/projectdiscovery/tlsx/cmd/tlsx@latest 2>/dev/null
 echo -e "\t \tDone ✔";
 
 # katana
 echo -n "Installing katana";
-go install github.com/projectdiscovery/katana/cmd/katana@latest
+go install github.com/projectdiscovery/katana/cmd/katana@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # dnsx
 echo -n "Installing dnsx";
-go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest
+go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # shuffledns
 echo -n "Installing shuffledns";
-go install github.com/projectdiscovery/shuffledns/cmd/shuffledns@latest
+go install github.com/projectdiscovery/shuffledns/cmd/shuffledns@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # qsreplace
@@ -167,22 +164,22 @@ echo -e "\t \tDone ✔";
 
 # waybackurls
 echo -n "Installing waybackurls";
-go install github.com/tomnomnom/waybackurls@latest
+go install github.com/tomnomnom/waybackurls@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # dalfox
 echo -n "Installing dalfox"
-go install github.com/hahwul/dalfox/v2@latest
+go install github.com/hahwul/dalfox/v2@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # gau
 echo -n "Installing gau";
-go install github.com/lc/gau/v2/cmd/gau@latest
+go install github.com/lc/gau/v2/cmd/gau@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # ffuf
 echo -n "Installing ffuf";
-go install github.com/ffuf/ffuf/v2@latest
+go install github.com/ffuf/ffuf/v2@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # jq
@@ -198,7 +195,7 @@ echo -e "\t \tDone ✔";
 
 # amass
 echo -n "Installing amass";
-go install github.com/owasp-amass/amass/v3/...@master
+go install github.com/owasp-amass/amass/v3/...@master 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # puredns
@@ -209,12 +206,12 @@ echo -e "\t \tDone ✔";
 
 # gf
 echo -n "Installing gf";
-go install github.com/tomnomnom/gf@latest
+go install github.com/tomnomnom/gf@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # anew 
 echo -n "Installing anew";
-go install github.com/tomnomnom/anew@latest
+go install github.com/tomnomnom/anew@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # fierce
