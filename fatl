@@ -1,0 +1,119 @@
+#!/bin/bash
+
+# Check if the required tools are installed
+if ! [ -x "$(command -v waybackurls)" ]; then
+  echo 'Error: waybackurls is not installed.' >&2
+  exit 1
+fi
+if ! [ -x "$(command -v gau)" ]; then
+  echo 'Error: gau is not installed.' >&2
+  exit 1
+fi
+if ! [ -x "$(command -v hakrawler)" ]; then
+  echo 'Error: hakrawler is not installed.' >&2
+  exit 1
+fi
+if ! [ -x "$(command -v katana)" ]; then
+  echo 'Error: katana is not installed.' >&2
+  exit 1
+fi
+if ! [ -x "$(command -v gospider)" ]; then
+  echo 'Error: gospider is not installed.' >&2
+  exit 1
+fi
+
+if ! [ -x "$(command -v python3 /opt/waymore/waymore.py)" ]; then
+	echo 'Error: waymore is not installed.' >&2
+	exit 1
+fi
+
+if ! [ -x "$(command -v python3 /opt/Photon/photon.py)" ]; then
+	echo 'Error: photon is not installed.' >&2
+	exit 1
+fi
+
+# Function to gather links using waybackurls
+gather_waybackurls() {
+  echo "Gathering links using waybackurls..."
+  waybackurls $1 2>/dev/null| grep -v ' ' | sort -u
+}
+# Function to gather links using gau
+gather_gau() {
+  echo "Gathering links using gau..."
+  gau $1 --subs 2>/dev/null| grep -v ' ' | sort -u
+}
+
+# Function to gather links using hakrawler
+gather_hakrawler() {
+  echo "Gathering links using hakrawler..."
+  hakrawler $1 -d 5 -subs 2>/dev/null| grep -v ' ' | sort -u
+}
+
+# Function to gather links using katana
+gather_katana() {
+  echo "Gathering links using katana..."
+  katana -u $1 -d 6 -jc -kf -aff -silent 2>/dev/null | grep -v ' ' | sort -u
+}
+
+# Function to gather links using gospider
+gather_gospider() {
+  echo "Gathering links using gospider..."
+  gospider -s $1 -q -d 6 --js --robots --sitemap -a -w -r 2>/dev/null | grep -v ' '| sort -u 
+}
+
+# Function to gather links using waymore
+gather_waymore() {
+	echo "Gathering links using waymore..."
+	python3 /opt/waymore/waymore.py -i $1 -mode U 2>/dev/null | grep -v ' ' | sort -u
+}
+
+# Function to gather links using photon
+gather_photon() {
+	echo "Gathering links using photon..."
+	python3 /opt/Photon/photon.py -u $1 --dns --keys -l 10 --wayback -o $1 2>/dev/null | grep -v ' ' | sort -u
+}
+
+# Main function
+GetAllLinks() {
+  if [ "$1" == "-u" ]; then
+    URL=$2
+    gather_waybackurls $URL
+    gather_waybackurls $URL
+    gather_waybackurls $URL
+    gather_gau $URL
+    gather_gau $URL
+    gather_gau $URL
+    gather_hakrawler $URL
+    gather_hakrawler $URL
+    gather_hakrawler $URL
+    gather_katana $URL
+    gather_katana $URL
+    gather_katana $URL
+    gather_gospider $URL
+    gather_gospider $URL
+    gather_gospider $URL
+    gather_photon $URL
+  else
+    while read URL; do
+      gather_waybackurls $URL
+      gather_waybackurls $URL
+      gather_waybackurls $URL
+      gather_gau $URL
+      gather_gau $URL
+      gather_gau $URL
+      gather_hakrawler $URL
+      gather_hakrawler $URL
+      gather_hakrawler $URL
+      gather_katana $URL
+      gather_katana $URL
+      gather_katana $URL
+      gather_gospider $URL
+      gather_gospider $URL
+      gather_gospider $URL
+      gather_photon $URL
+    done
+  fi
+}
+
+# Call the main function
+GetAllLinks $@
