@@ -24,10 +24,10 @@ echo "";
 
 # go
 echo -n "Installing go";
-wget -q https://go.dev/dl/go1.19.3.linux-amd64.tar.gz;
-tar -xzf go1.19.3.linux-amd64.tar.gz;
-rm go1.19.3.linux-amd64.tar.gz;
-mv go/ /usr/bin/;
+wget -q https://go.dev/dl/go1.19.3.linux-amd64.tar.gz 2>/dev/null;
+tar -xzf go1.19.3.linux-amd64.tar.gz python -m pip install fierce;
+rm go1.19.3.linux-amd64.tar.gz python -m pip install fierce;
+mv go/ /usr/bin/ python -m pip install fierce;
 chmod +x /usr/bin/go/bin/go;
 export PATH=$PATH:/usr/bin/go/bin/
 echo -e "\t \tDone ✔";
@@ -49,11 +49,11 @@ echo -e "\t \tDone ✔";
 
 # Findomain
 echo -n "Installing Findomain";
-findomain="https://github.com/Findomain/Findomain/releases/download/9.0.0/findomain-linux-i386.zip";
-wget -q $findomain;
-unzip -q -o findomain-linux-i386.zip;
-rm findomain-linux-i386.zip;
-chmod +x findomain; mv findomain /usr/bin/;
+findomain="https://github.com/Findomain/Findomain/releases/download/9.0.1/findomain-linux-i386.zip";
+wget -q $findomain 2>/dev/null;
+unzip -q -o findomain-linux-i386.zip 2>/dev/null;
+rm findomain-linux-i386.zip 2>/dev/null;
+chmod +x findomain; mv findomain /usr/bin/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # Httpx
@@ -63,13 +63,13 @@ echo -e "\t \tDone ✔";
 
 # Interactsh
 echo -n "Installing Interactsh"
-go install -v github.com/projectdiscovery/interactsh/cmd/interactsh-client@latest
+go install -v github.com/projectdiscovery/interactsh/cmd/interactsh-client@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # ctfr
 echo -n "Installing ctfr"
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/ctfr.py;
-mv ctfr.py /opt/;
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/ctfr.py 2>/dev/null;
+mv ctfr.py /opt/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # gospider
@@ -79,11 +79,11 @@ echo -e "\t \tDone ";
 
 # Photon
 echo -n "Installing Photon";
-git clone -q https://github.com/s0md3v/Photon;
+git clone -q https://github.com/s0md3v/Photon 2>/dev/null;
 cd Photon;
 pip3 -q install -r requirements.txt 2>/dev/null;
 cd ..;
-mv Photon /opt/;
+mv Photon /opt/ 2>/dev/null;
 echo -e "\t \tDone ";
 
 # Waymore
@@ -91,7 +91,7 @@ echo -n "Installing waymore..";
 git clone -q https://github.com/xnl-h4ck3r/waymore.git 2>/dev/null;
 cd waymore/;
 pip3 -q install -r requirements.txt 2>/dev/null;
-python setup.py install;
+python setup.py install 2>/dev/null;
 echo -e "\t \tDone ";
 
 # Hakrawler
@@ -101,20 +101,20 @@ echo -e "\t \tDone ";
 
 # Fatl
 echo -n "Installing fatl.."
-wget -q https://raw.githubusercontent.com/winteri3coming/VPS-Setup/main/fatl;
+wget -q https://raw.githubusercontent.com/winteri3coming/VPS-Setup/main/fatl 2>/dev/null;
 mv fatl /usr/bin/ 2>/dev/null;
 echo -e "\t \tDone";
 
 # https-forcer
 echo -n "Installing https-forcer.."
 wget -q https://raw.githubusercontent.com/winteri3coming/VPS-Setup/main/https-forcer.py;
-mv https-forcer.py /usr/bin/;
+mv https-forcer.py /usr/bin/ 2>/dev/null;
 echo -e "\t \t Done ";
 
 # reconitall
 echo -n "Installing reconitall.."
 wget -q https://raw.githubusercontent.com/winteri3coming/VPS-Setup/main/reconitall 2>/dev/null;
-mv reconitall /usr/bin/;
+mv reconitall /usr/bin/ 2>/dev/null;
 echo -e "\t \tDone ";
 
 # uro
@@ -134,7 +134,7 @@ echo "\t \tDone ";
 
 # tlsx
 echo -n "Installing tlsx";
-go install github.com/projectdiscovery/tlsx/cmd/tlsx@latest 2>/dev/null
+go install github.com/projectdiscovery/tlsx/cmd/tlsx@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # katana
@@ -159,7 +159,7 @@ echo -e "\t \tDone ✔";
 
 # assetfinder
 echo -n "Installing assetfinder";
-go install github.com/tomnomnom/assetfinder@latest 2>/dev/null
+go install github.com/tomnomnom/assetfinder@latest 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # waybackurls
@@ -184,13 +184,13 @@ echo -e "\t \tDone ✔";
 
 # jq
 echo -n "Installing jq";
-jq="https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64";
-wget -q $jq; mv jq-linux64 /usr/bin/jq;
+jq="https://github.com/jqlang/jq/releases/download/jq-1.7/jq-linux-amd64" 2>/dev/null;
+wget -q $jq; mv jq-linux64 /usr/bin/jq 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # arjun
 echo -n "Installing arjun";
-pip3 -q install arjun;
+pip3 -q install arjun 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # amass
@@ -216,33 +216,33 @@ echo -e "\t \tDone ✔";
 
 # fierce
 echo -n "Installing fierce";
-python -m pip - install fierce 2>/dev/null;
+python -m pip install fierce 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # Linkfinder
 echo -n "Installing Linkfinder"
 git clone -q https://github.com/GerbenJavado/LinkFinder 2>/dev/null;
-cd LinkFinder/;
+cd LinkFinder/ 2>/dev/null;
 pip3 -q install -r requirements.txt 2>/dev/null;
-cd ../;
-mv LinkFinder /opt/;
+cd ../ 2>/dev/null;
+mv LinkFinder /opt/ 2>/dev/null;
 echo -e "\t \tDone ";
 
 # SecretFinder
 echo -n "Installing SecretFinder.."
 git clone -q https://github.com/m4ll0k/SecretFinder 2>/dev/null;
-cd SecretFinder/;
+cd SecretFinder/ 2>/dev/null;
 pip3 -q install -r requirements.txt 2>/dev/null;
-cd ../;
+cd ../ 2>/dev/null;
 mv SecretFinder /opt/ 2>/dev/null;
 echo -e "\t \tDone ";
 
 # Paramspider
 echo -n "Installing Paramspider.."
 git clone -q https://github.com/devanshbatham/ParamSpider 2>/dev/null;
-cd ParamSpider;
+cd ParamSpider/ 2>/dev/null;
 pip3 -q install -r requirements.txt 2>/dev/null;
-cd ../;
+cd ../ 2>/dev/null;
 mv ParamSpider /opt/ 2>/dev/null;
 echo -e "\t \tDone ";
 
@@ -253,7 +253,7 @@ echo -e "\t \tDone ✔";
 
 # dnsgen
 echo -n "Installing dnsgen"
-pip3 -q install dnsgen;
+pip3 -q install dnsgen 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # Gotator
@@ -264,15 +264,15 @@ echo -e "\t \tDone ✔"
 # Subjack
 echo -n "Installing subjack";
 go install github.com/haccer/subjack@latest 2>/dev/null;
-wget -q https://raw.githubusercontent.com/haccer/subjack/master/fingerprints.json;
-mv fingerprints.json /opt/;
+wget -q https://raw.githubusercontent.com/haccer/subjack/master/fingerprints.json 2>/dev/null;
+mv fingerprints.json /opt/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # SubOver
 echo -n "Installing subover";
 go install github.com/Ice3man543/SubOver@latest 2>/dev/null;
-wget -q https://raw.githubusercontent.com/Ice3man543/SubOver/master/providers.json;
-mv providers.json /opt/;
+wget -q https://raw.githubusercontent.com/Ice3man543/SubOver/master/providers.json 2>/dev/null;
+mv providers.json /opt/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # Subzy
@@ -282,34 +282,34 @@ echo -e "\t \tDone ✔";
 
 # dnsrecon
 echo -n "Installing dnsrecon";
-git clone -q https://github.com/darkoperator/dnsrecon;
-cd dnsrecon/;
+git clone -q https://github.com/darkoperator/dnsrecon 2>/dev/null;
+cd dnsrecon/ 2>/dev/null;
 pip3 -q install -r requirements.txt 2>/dev/null;
-cd ..
-mv dnsrecon/ /opt/;
+cd ../ 2>/dev/null;
+mv dnsrecon/ /opt/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # Interlace
 echo -n "Installing Interlace";
-git clone -q https://github.com/codingo/Interlace;
-cd Interlace/;
-pip3 -q install -r requirements.txt;
+git clone -q https://github.com/codingo/Interlace 2>/dev/null;
+cd Interlace/ 2>/dev/null;
+pip3 -q install -r requirements.txt 2>/dev/null;
 python3 setup.py install --root /dev/shm/tools/ --prefix interlace-codingo 1>/dev/null 2>/dev/null;
-mv /usr/bin/interlace-codingo/bin/interlace /usr/bin/;
-cd ..;
+mv /usr/bin/interlace-codingo/bin/interlace /usr/bin/ 2>/dev/null;
+cd ../ 2>/dev/null;
 rm -rf Interlace 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # sanenum
 echo -n "Installing sanenum";
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/sanenum;
-mv sanenum /usr/bin/;
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/sanenum 2>/dev/null;
+mv sanenum /usr/bin/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # cspenum
 echo -n "Installing cspenum";
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/cspenum;
-mv cspenum /usr/bin/;
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/cspenum 2>/dev/null;
+mv cspenum /usr/bin/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # wafw00f
@@ -319,61 +319,61 @@ echo -e "\t \tDone ✔";
 
 # sectrails
 echo -n "Installing sectrails";
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/sectrails;
-mv sectrails /usr/bin/;
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/sectrails 2>/dev/null;
+mv sectrails /usr/bin/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # rapidns
 echo -n "Installing rapidns";
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/rapidns;
-mv rapidns /usr/bin/;
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/rapidns 2>/dev/null;
+mv rapidns /usr/bin/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # crtsh
 echo -n "Installing crtsh";
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/crtsh;
-mv crtsh /usr/bin/;
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/crtsh 2>/dev/null;
+mv crtsh /usr/bin/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # precursive
 echo -n "Installing precursive";
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/precursive;
-mv precursive /usr/bin/;
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/precursive 2>/dev/null;
+mv precursive /usr/bin/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # jldc
 echo -n "Installing jldc";
-wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/jldc;
-mv jldc /usr/bin/;
+wget -q https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/jldc 2>/dev/null;
+mv jldc /usr/bin/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # xsstrike
 echo -n "Installing XSStrike"
 xsstrike="https://github.com/s0md3v/XSStrike";
-git clone -q $xsstrike;
-mv XSStrike /opt/;
+git clone -q $xsstrike 2>/dev/null;
+mv XSStrike /opt/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # massdns
 echo -n "Installing massdns";
 massdns="https://github.com/blechschmidt/massdns";
-git clone -q $massdns;
-cd massdns;
-make -s;
-mv bin/massdns /usr/bin/;
-cd ..;
-rm -rf massdns/;
+git clone -q $massdns 2>/dev/null;
+cd massdns 2>/dev/null;
+make -s 2>/dev/null;
+mv bin/massdns /usr/bin/ 2>/dev/null;
+cd ../ 2>/dev/null;
+rm -rf massdns/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # masscan
 echo -n "Installing masscan";
 masscan="https://github.com/robertdavidgraham/masscan";
-git clone -q $masscan;
-cd masscan/;
+git clone -q $masscan 2>/dev/null;
+cd masscan/ 2>/dev/null;
 make -s 2>/dev/null;
 mv bin/* $../usr/bin/ 2>/dev/null;
-cd ..;
-rm -rf masscan;
+cd ../ 2>/dev/null;
+rm -rf masscan 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # Gxss
@@ -393,10 +393,10 @@ echo -e "\t \tDone ";
 
 # Oralyzer
 echo -n "Installing Oralyze..";
-git clone -q https://github.com/r0075h3ll/Oralyzer.git;
-cd Oralyzer/;
+git clone -q https://github.com/r0075h3ll/Oralyzer.git 2>/dev/null;
+cd Oralyzer/ 2>/dev/null;
 pip3 -q install requirements.txt 2>/dev/null;
-cd ..;
+cd ../ 2>/dev/null;
 mv Oralyzer /opt/ 2>/dev/null;
 echo -e "\t \tDone ";
 
@@ -417,14 +417,14 @@ echo -e "\t \tDone ";
 
 # qsReplaceBetter
 echo -n "Installing qsReplaceBetter.."
-wget -q https://raw.githubusercontent.com/winteri3coming/VPS-Setup/main/qsreplaceBetter;
+wget -q https://raw.githubusercontent.com/winteri3coming/VPS-Setup/main/qsreplaceBetter 2>/dev/null;
 mv qsreplaceBetter /usr/bin/ 2>/dev/null;
 echo -e "\t \tDone "
 
 # gf-patterns
 echo -n "Installing gf-patterns";
 gfpatterns="https://github.com/robre/gf-patterns";
-git clone -q $gfpatterns; mv gf-patterns/* ~/.gf/ 2>/dev/null;
+git clone -q $gfpatterns 2>/dev/null; mv gf-patterns/* ~/.gf/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # unfurl
@@ -435,20 +435,20 @@ echo -e "\t \tDone ✔";
 # cent
 echo -n "Installing cent";
 cent="https://github.com/xm1k3/cent";
-git clone -q $cent;
-mv cent /usr/bin/;
+git clone -q $cent 2>/dev/null;
+mv cent /usr/bin/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # sd-goo
 echo -n "Installing sd-goo";
-wget -q https://raw.githubusercontent.com/darklotuskdb/sd-goo/main/sd-goo.sh;
-mv sd-goo.sh /usr/bin/;
+wget -q https://raw.githubusercontent.com/darklotuskdb/sd-goo/main/sd-goo.sh 2>/dev/null;
+mv sd-goo.sh /usr/bin/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # rfuf
 echo -n "Installing rfuf";
-wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/rfuf";
-mv rfuf /usr/bin/;
+wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/rfuf" 2>/dev/null;
+mv rfuf /usr/bin/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # mapcidr
@@ -465,15 +465,15 @@ echo -e "\t \tDone "
 # Corsy
 echo -n "Installing corsy.."
 git clone -q https://github.com/s0md3v/Corsy 2>/dev/null;
-cd Corsy/
+cd Corsy/ 2>/dev/null;
 pip3 -q install -r requirements.txt 2>/dev/null;
-cd ..;
+cd ../ 2>/dev/null;
 mv Corsy /opt/ 2>/dev/null;
 echo -e "\t \tDone "
 
 # sqlmap
 echo -n "Installing sqlmap.."
-git clone -q --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap-dev 2>/dev/null
+git clone -q --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap-dev 2>/dev/null;
 mv sqlmap-dev /opt/ 2>/dev/null;
 echo -e "\t \tDone ";
 
@@ -488,40 +488,41 @@ echo "";
 # seclists
 echo -n "Downloading SecLists";
 seclists="https://github.com/danielmiessler/SecLists";
-git clone -q $seclists; mv SecLists wordlists/;
+mkdir wordlists/ 2>/dev/null;
+git clone -q $seclists; mv SecLists wordlists/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # Custom-Wordlists
-mkdir -p bugbounty/wordlists/payloads/ 2>/dev/null;
+mkdir -p wordlists/payloads/ 2>/dev/null;
 wget -q https://raw.githubusercontent.com/winteri3coming/VPS-Setup/main/payloads/open-redirect.txt 2>/dev/null;
-mv open-redirect.txt bugbounty/wordlists/payloads/ 2>/dev/null;
+mv open-redirect.txt wordlists/payloads/ 2>/dev/null;
 wget -q https://raw.githubusercontent.com/winteri3coming/VPS-Setup/main/payloads/lfi.txt 2>/dev/null;
-mv lfi.txt bugbounty/wordlists/payloads/ 2>/dev/null;
+mv lfi.txt wordlists/payloads/ 2>/dev/null;
 wget -q https://raw.githubusercontent.com/winteri3coming/VPS-Setup/main/payloads/crlf.txt 2>/dev/null
-mv crlf.txt bugbounty/wordlists/payloads/ 2>/dev/null;
+mv crlf.txt wordlists/payloads/ 2>/dev/null;
 wget -q https://raw.githubusercontent.com/winteri3coming/VPS-Setup/main/payloads/sqli.txt 2>/dev/null
-mv sqli bugbounty/wordlists/sqli.txt 2/dev/null;
+mv sqli.txt wordlists/payloads/ 2>/dev/null;
 echo -n "Downloading Custom Wordlists";
 wget -q "https://raw.githubusercontent.com/ayoubfathi/leaky-paths/main/leaky-paths.txt";
-mv leaky-paths.txt wordlists/;
+mv leaky-paths.txt wordlists/ 2>/dev/null;
 wget -q "https://wordlists-cdn.assetnote.io/data/manual/best-dns-wordlist.txt";
-mv best-dns-wordlist.txt wordlists/;
+mv best-dns-wordlist.txt wordlists/ 2>/dev/null;
 wget -q "https://raw.githubusercontent.com/infosec-au/altdns/master/words.txt";
-mv words.txt /opt;
+mv words.txt /opt/ 2>/dev/null;
 wget -q "https://raw.githubusercontent.com/FrozenOption/VPS-Setup/main/config.ini";
-mkdir ~/.config/amass 2>/dev/null; mv config.ini ~/.config/amass/;
+mkdir ~/.config/amass/ 2>/dev/null; mv config.ini ~/.config/amass/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 # Resolvers
 echo -n "Downloading fresh resolvers";
-wget -q "https://raw.githubusercontent.com/proabiral/Fresh-Resolvers/master/resolvers.txt";
-mv resolvers.txt /opt/;
+wget -q "https://raw.githubusercontent.com/proabiral/Fresh-Resolvers/master/resolvers.txt" 2>/dev/null;
+mv resolvers.txt /opt/ 2>/dev/null;
 echo -e "\t \tDone ✔";
 
 echo "";
-mv vpsup /usr/bin/;
+mv vpsup /usr/bin/ 2>/dev/null;
 rm LICENSE* 2>/dev/null;
 rm *.md 2>/dev/null;
 mv ~/go/bin/* /usr/bin/ 2>/dev/null;
-cd /usr/bin/; chmod +x *;
+cd /usr/bin/ 2>/dev/null; chmod +x *;
 echo -e "${YELLOW}Finished! Your VPS ready${NC}";
